@@ -1,13 +1,13 @@
 const config: Record<string, any> = require("@/configuration/shop_config.json");
-const required_config_keys = ["app-id", "location-id"];
-const required_product_keys = [
+const requiredConfigKeys = ["app-id", "location-id"];
+const requiredProductKeys = [
   "name",
   "description",
   "image",
   "product-id",
   "variations",
 ];
-const required_varation_keys = ["name", "price", "variation-id"];
+const requiredVariationKeys = ["name", "price", "variation-id"];
 
 export class Variation {
   id: string;
@@ -25,7 +25,7 @@ export class Product {
   id: string;
   name: string;
   description: string;
-  long_description: string;
+  longDescription: string;
   image: string;
   thumbnail: string;
   variations: Variation[];
@@ -34,7 +34,7 @@ export class Product {
     id: string,
     name: string,
     description: string,
-    long_description: string,
+    longDescription: string,
     image: string,
     thumbnail: string,
     variations: Variation[]
@@ -42,7 +42,7 @@ export class Product {
     this.id = id;
     this.name = name;
     this.description = description;
-    this.long_description = long_description;
+    this.longDescription = longDescription;
     this.image = image;
     this.thumbnail = thumbnail;
     this.variations = variations;
@@ -50,64 +50,63 @@ export class Product {
 }
 
 function createVariation(
-  variation_info: Record<string, any>,
-  used_variation_names: Set<String>
+  variationInfo: Record<string, any>,
+  usedVariationNames: Set<String>
 ): Variation {
-  for (const key of required_varation_keys) {
-    if (variation_info[key] == undefined) {
+  for (const key of requiredVariationKeys) {
+    if (variationInfo[key] === undefined) {
       throw new Error(`Variation missing field ${key}`);
     }
   }
-  const name = variation_info["name"];
-  if (used_variation_names.has(name)) {
+  const name = variationInfo["name"];
+  if (usedVariationNames.has(name)) {
     throw new Error(
       `Variation name ${name} used multiple times. (Variation names must be unique)`
     );
   }
-  used_variation_names.add(name);
+  usedVariationNames.add(name);
 
-  const id: string = variation_info["variation-id"];
-  const price: number = variation_info["price"];
+  const id = variationInfo["variation-id"];
+  const price = variationInfo["price"];
 
   return new Variation(id, name, price);
 }
 
 function createProduct(
-  product_info: Record<string, any>,
-  used_product_names: Set<string>
+  productInfo: Record<string, any>,
+  usedProductNames: Set<string>
 ): Product {
-  for (const key of required_product_keys) {
-    if (product_info[key] == undefined) {
+  for (const key of requiredProductKeys) {
+    if (productInfo[key] === undefined) {
       throw new Error(`Product missing field ${key}`);
     }
   }
 
-  const name: string = product_info["name"];
-  if (used_product_names.has(name)) {
+  const name: string = productInfo["name"];
+  if (usedProductNames.has(name)) {
     throw new Error(
       `Product name ${name} used multiple times. (Product names must be unique)`
     );
   }
-  used_product_names.add(name);
+  usedProductNames.add(name);
 
-  const id: string = product_info["id"];
-  const description: string = product_info["description"];
-  const long_description: string =
-    product_info["long-description"] ?? description;
-  const image: string = product_info["image"];
-  const thumbnail: string = product_info["thumbnail"] ?? image;
+  const id = productInfo["id"];
+  const description = productInfo["description"];
+  const longDescription = productInfo["long-description"] ?? description;
+  const image = productInfo["image"];
+  const thumbnail = productInfo["thumbnail"] ?? image;
 
-  const used_variation_names: Set<string> = new Set();
-  const variations = product_info["variations"].map(
+  const usedVariationNames: Set<string> = new Set();
+  const variations = productInfo["variations"].map(
     (variation_info: Map<string, any>) =>
-      createVariation(variation_info, used_variation_names)
+      createVariation(variation_info, usedVariationNames)
   );
 
   return new Product(
     id,
     name,
     description,
-    long_description,
+    longDescription,
     image,
     thumbnail,
     variations
@@ -115,30 +114,31 @@ function createProduct(
 }
 
 // Validate config
-for (const key of required_config_keys) {
-  if (config[key] == undefined) {
+for (const key of requiredConfigKeys) {
+  if (config[key] === undefined) {
     throw new Error(`Config file is missing ${key}`);
   }
 }
-const used_product_names: Set<string> = new Set();
+const usedProductNames: Set<string> = new Set();
 
-var access_token: string;
+var accessToken: string;
 if (process.env.SQUARE_ACCESS_TOKEN !== undefined) {
-  access_token = process.env.SQUARE_ACCESS_TOKEN;
+  accessToken = process.env.SQUARE_ACCESS_TOKEN;
 } else {
   throw new Error(`SQUARE_ACCESS_TOKEN missing from .env file`);
 }
-export const SQUARE_ACCESS_TOKEN: string = access_token;
+export const SQUARE_ACCESS_TOKEN: string = accessToken;
 export const SQUARE_APPLICATION_ID: string = config["app-id"];
 export const SQUARE_LOCATION_ID: string = config["location-id"];
+export const CURRENCY: string = config["currency"];
 export const PRODUCTS: Product[] = config["products"].map(
-  (product_info: Record<string, any>) =>
-    createProduct(product_info, used_product_names)
+  (productInfo: Record<string, any>) =>
+    createProduct(productInfo, usedProductNames)
 );
 
 export function getProductByName(product_name: string): Product | undefined {
   for (const product of PRODUCTS) {
-    if (product.name == product_name) {
+    if (product.name === product_name) {
       return product;
     }
   }

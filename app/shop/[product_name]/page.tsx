@@ -40,7 +40,7 @@ export default async function ProductPage({
       </div>
       <div className="containder mx-auto w-2/3">
         <p>Name: {product.name}</p>
-        <p>{product.long_description}</p>
+        <p>{product.longDescription}</p>
         <VariationsList variations={product.variations} />
       </div>
     </div>
