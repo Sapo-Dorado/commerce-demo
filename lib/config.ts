@@ -90,7 +90,7 @@ function createProduct(
   }
   usedProductNames.add(name);
 
-  const id = productInfo["id"];
+  const id = productInfo["product-id"];
   const description = productInfo["description"];
   const longDescription = productInfo["long-description"] ?? description;
   const image = productInfo["image"];
