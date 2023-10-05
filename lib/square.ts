@@ -86,3 +86,25 @@ export async function createPayment(
     return genErrorResult(error);
   }
 }
+
+export async function getInventoryCount(variationId: string) {
+  try {
+    const { result } = await client.inventoryApi.retrieveInventoryCount(
+      variationId,
+      SQUARE_LOCATION_ID
+    );
+
+    const counts = result?.counts;
+    if (counts === undefined) {
+      throw Error("Counts not defined");
+    }
+    const count = counts[0].quantity;
+    if (count === null || count === undefined) {
+      throw Error("Counts not defined");
+    }
+
+    return { data: { count: count.toString() } };
+  } catch (error) {
+    return { data: { count: "Unknown" } };
+  }
+}

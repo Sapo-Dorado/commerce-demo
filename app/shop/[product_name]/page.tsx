@@ -1,4 +1,5 @@
 import { CardPayment } from "@/lib/components/card_payment";
+import { InventoryCount } from "@/lib/components/inventory_count";
 import { Product, Variation, PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
 
@@ -47,6 +48,7 @@ export default async function ProductPage({
         <p>Name: {product.name}</p>
         <p>{product.longDescription}</p>
         <VariationsList variations={product.variations} />
+        <InventoryCount variationId={product.variations[0].id} />
         <CardPayment productAmounts={productAmounts} />
       </div>
     </div>
