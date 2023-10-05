@@ -1,5 +1,5 @@
-import { CardPayment } from "@/lib/components/card_payment";
-import { InventoryCount } from "@/lib/components/inventory_count";
+import { CardPayment } from "@/lib/components/CardPayment";
+import { InventoryCount } from "@/lib/components/InventoryCount";
 import { Product, Variation, PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
 
