@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPayment } from "@/lib/square";
-import { handleErrors } from "@/lib/util";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const { sourceId, orderId } = await req.json();
-  const { payment, errors } = await createPayment(sourceId, orderId);
+  const { data, errors } = await createPayment(sourceId, orderId);
   if (errors !== undefined) {
-    return handleErrors(errors);
+    return NextResponse.json(errors, { status: 500 });
   }
 
   // If errors is undefined payment should be defined
-  return NextResponse.json({ data: { id: payment?.id } }, { status: 200 });
-
+  return NextResponse.json({ data: data }, { status: 200 });
 }

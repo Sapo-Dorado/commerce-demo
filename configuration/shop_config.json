@@ -1,7 +1,8 @@
 {
-  "app-id":  "sandbox-sq0idb-FghFdvMX2ujLlIcGFV_h4g",
+  "app-id": "sandbox-sq0idb-FghFdvMX2ujLlIcGFV_h4g",
   "location-id": "L5Z00GNDDA65D",
   "currency": "USD",
+  "country-code": "US",
   "products": [
     {
       "name": "Ashitaba",

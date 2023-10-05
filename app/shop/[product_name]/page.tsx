@@ -1,3 +1,4 @@
+import { CardPayment } from "@/lib/components/card_payment";
 import { Product, Variation, PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
 
@@ -28,6 +29,10 @@ export default async function ProductPage({
 }) {
   const { product_name } = params;
   const product: Product = getProductByName(product_name) ?? notFound();
+
+  const productAmounts: Record<string, number> = {};
+  productAmounts[product.variations[0].id] = 1;
+
   return (
     <div className="h-screen">
       <div className="h-1/5" />
@@ -42,6 +47,7 @@ export default async function ProductPage({
         <p>Name: {product.name}</p>
         <p>{product.longDescription}</p>
         <VariationsList variations={product.variations} />
+        <CardPayment productAmounts={productAmounts} />
       </div>
     </div>
   );

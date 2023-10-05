@@ -12,6 +12,7 @@
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
+    "react-square-web-payments-sdk": "^3.2.1",
     "square": "^31.0.0"
   },
   "devDependencies": {
