@@ -1,9 +1,5 @@
 import { Client, Environment, OrderLineItem, ApiError } from "square";
-import {
-  SQUARE_ACCESS_TOKEN,
-  SQUARE_LOCATION_ID,
-  CURRENCY,
-} from "@/lib/config";
+import { SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID, CURRENCY } from "./config";
 import { randomUUID } from "crypto";
 
 (BigInt.prototype as any).toJSON = function () {

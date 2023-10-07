@@ -7,7 +7,11 @@ const fetchInventoryCount = cache(async (variationId: string) => {
   return (await getInventoryCount(variationId)).data.count;
 });
 
-export async function InventoryCount({ variationId }: { variationId: string }) {
+export default async function InventoryCount({
+  variationId,
+}: {
+  variationId: string;
+}) {
   const count = await fetchInventoryCount(variationId);
   return (
     <div className="container mx-auto content-center">

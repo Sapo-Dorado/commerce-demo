@@ -1,3 +1,4 @@
+import { Variation, Product } from "./models";
 const config: Record<string, any> = require("@/configuration/shop_config.json");
 const requiredConfigKeys = ["app-id", "location-id"];
 const requiredProductKeys = [
@@ -8,46 +9,6 @@ const requiredProductKeys = [
   "variations",
 ];
 const requiredVariationKeys = ["name", "price", "variation-id"];
-
-export class Variation {
-  id: string;
-  name: string;
-  price: number;
-
-  constructor(id: string, name: string, price: number) {
-    this.id = id;
-    this.name = name;
-    this.price = price;
-  }
-}
-
-export class Product {
-  id: string;
-  name: string;
-  description: string;
-  longDescription: string;
-  image: string;
-  thumbnail: string;
-  variations: Variation[];
-
-  constructor(
-    id: string,
-    name: string,
-    description: string,
-    longDescription: string,
-    image: string,
-    thumbnail: string,
-    variations: Variation[]
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.longDescription = longDescription;
-    this.image = image;
-    this.thumbnail = thumbnail;
-    this.variations = variations;
-  }
-}
 
 function createVariation(
   variationInfo: Record<string, any>,
@@ -66,10 +27,11 @@ function createVariation(
   }
   usedVariationNames.add(name);
 
-  const id = variationInfo["variation-id"];
-  const price = variationInfo["price"];
-
-  return new Variation(id, name, price);
+  return {
+    id: variationInfo["variation-id"],
+    name,
+    price: variationInfo["price"],
+  };
 }
 
 function createProduct(
@@ -90,27 +52,30 @@ function createProduct(
   }
   usedProductNames.add(name);
 
-  const id = productInfo["product-id"];
-  const description = productInfo["description"];
-  const longDescription = productInfo["long-description"] ?? description;
-  const image = productInfo["image"];
-  const thumbnail = productInfo["thumbnail"] ?? image;
-
   const usedVariationNames: Set<string> = new Set();
   const variations = productInfo["variations"].map(
     (variation_info: Map<string, any>) =>
       createVariation(variation_info, usedVariationNames)
   );
 
-  return new Product(
-    id,
+  return {
+    id: productInfo["product-id"],
     name,
-    description,
-    longDescription,
-    image,
-    thumbnail,
-    variations
-  );
+    description: productInfo["description"],
+    longDescription:
+      productInfo["long-description"] ?? productInfo["description"],
+    image: productInfo["image"],
+    thumbnail: productInfo["thumbnail"] ?? productInfo["image"],
+    variations,
+  };
+}
+
+function getProductByName(product_name: string): Product | undefined {
+  for (const product of PRODUCTS) {
+    if (product.name === product_name) {
+      return product;
+    }
+  }
 }
 
 // Validate config
@@ -127,6 +92,7 @@ if (process.env.SQUARE_ACCESS_TOKEN !== undefined) {
 } else {
   throw new Error(`SQUARE_ACCESS_TOKEN missing from .env file`);
 }
+
 export const SQUARE_ACCESS_TOKEN: string = accessToken;
 export const SQUARE_APPLICATION_ID: string = config["app-id"];
 export const SQUARE_LOCATION_ID: string = config["location-id"];
@@ -136,10 +102,4 @@ export const PRODUCTS: Product[] = config["products"].map(
     createProduct(productInfo, usedProductNames)
 );
 
-export function getProductByName(product_name: string): Product | undefined {
-  for (const product of PRODUCTS) {
-    if (product.name === product_name) {
-      return product;
-    }
-  }
-}
+export { getProductByName };
