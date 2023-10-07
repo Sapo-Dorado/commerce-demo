@@ -4,7 +4,7 @@ import { formatPrice } from "@/lib/utils";
 import * as S from "./style";
 import CartItems from "./CartItems";
 
-const Cart = () => {
+export default function Cart() {
   const { isOpen, openCart, closeCart, total, items } = useCart();
 
   const handleCheckout = () => {
@@ -56,6 +56,4 @@ const Cart = () => {
       )}
     </S.Container>
   );
-};
-
-export default Cart;
+}

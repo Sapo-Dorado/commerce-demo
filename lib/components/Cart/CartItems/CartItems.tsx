@@ -7,7 +7,7 @@ interface IProps {
   items: ICartItem[];
 }
 
-const CartProducts = ({ items }: IProps) => {
+export default function CartProducts({ items }: IProps) {
   return (
     <S.Container>
       {items?.length ? (
@@ -17,6 +17,4 @@ const CartProducts = ({ items }: IProps) => {
       )}
     </S.Container>
   );
-};
-
-export default CartProducts;
+}

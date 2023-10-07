@@ -14,6 +14,11 @@ export interface Product {
   variations: Variation[];
 }
 
+export interface Order {
+  id: string;
+  price: number;
+}
+
 export interface ICartItem {
   product: Product;
   variation: Variation;
