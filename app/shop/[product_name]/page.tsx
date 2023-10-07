@@ -3,7 +3,7 @@ import Cart from "@/lib/components/Cart";
 import { PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
 import { Product, Variation } from "@/lib/models";
-import AddToCartButton from "@/lib/components/AddToCartButton/AddToCartButton";
+import AddToCartButton from "@/lib/components/AddToCartButton";
 
 export function generateStaticParams() {
   return PRODUCTS.map((product) => ({
