@@ -1,6 +1,7 @@
 import { Client, Environment, OrderLineItem, ApiError, Order } from "square";
 import { SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID, CURRENCY } from "./config";
 import { randomUUID } from "crypto";
+import { OrderData } from "./models";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -14,6 +15,18 @@ const client = new Client({
 interface SquareResult {
   data?: any;
   errors?: string[];
+}
+
+function genOrderData(order?: Order): OrderData {
+  const id = order?.id;
+  const amount = order?.netAmountDueMoney?.amount;
+  if (!(id && amount)) {
+    throw Error("Order missing necessary parameters");
+  }
+  return {
+    id,
+    price: parseInt(amount.toString()),
+  };
 }
 
 export function genErrorResult(error: any): SquareResult {
@@ -49,10 +62,7 @@ export async function createOrder(
     });
 
     return {
-      data: {
-        id: result?.order?.id,
-        price: result?.order?.netAmountDueMoney?.amount,
-      },
+      data: genOrderData(result.order),
     };
   } catch (error) {
     return genErrorResult(error);
@@ -77,6 +87,9 @@ export async function createPayment(
       },
       orderId: orderId,
     });
+    if (!paymentResult?.payment?.id) {
+      throw Error("Invalid payment");
+    }
     return { data: { id: paymentResult?.payment?.id } };
   } catch (error) {
     return genErrorResult(error);
@@ -91,11 +104,11 @@ export async function getInventoryCount(variationId: string) {
     );
 
     const counts = result?.counts;
-    if (counts === undefined) {
+    if (!counts) {
       throw Error("Counts not defined");
     }
     const count = counts[0].quantity;
-    if (count === null || count === undefined) {
+    if (!count) {
       throw Error("Counts not defined");
     }
 
@@ -109,12 +122,7 @@ export async function getOrder(orderId: string) {
   try {
     const { result } = await client.ordersApi.retrieveOrder(orderId);
 
-    return {
-      data: {
-        id: result?.order?.id,
-        price: result?.order?.netAmountDueMoney?.amount,
-      },
-    };
+    return { data: genOrderData(result.order) };
   } catch (error) {
     return genErrorResult(error);
   }
