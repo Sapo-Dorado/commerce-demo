@@ -1,4 +1,4 @@
-import { Client, Environment, OrderLineItem, ApiError } from "square";
+import { Client, Environment, OrderLineItem, ApiError, Order } from "square";
 import { SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID, CURRENCY } from "./config";
 import { randomUUID } from "crypto";
 
@@ -102,5 +102,20 @@ export async function getInventoryCount(variationId: string) {
     return { data: { count: count.toString() } };
   } catch (error) {
     return { data: { count: "Unknown" } };
+  }
+}
+
+export async function getOrder(orderId: string) {
+  try {
+    const { result } = await client.ordersApi.retrieveOrder(orderId);
+
+    return {
+      data: {
+        id: result?.order?.id,
+        price: result?.order?.netAmountDueMoney?.amount,
+      },
+    };
+  } catch (error) {
+    return genErrorResult(error);
   }
 }

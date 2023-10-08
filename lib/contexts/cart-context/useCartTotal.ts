@@ -1,7 +1,7 @@
 import { useCartContext } from "./CartContextProvider";
 import { ICartItem, ICartTotal } from "@/lib/models";
 
-const useCartTotal = () => {
+export default function useCartTotal() {
   const { total, setTotal } = useCartContext();
 
   const updateCartTotal = (items: ICartItem[]) => {
@@ -26,6 +26,4 @@ const useCartTotal = () => {
     total,
     updateCartTotal,
   };
-};
-
-export default useCartTotal;
+}

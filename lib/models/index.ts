@@ -14,7 +14,7 @@ export interface Product {
   variations: Variation[];
 }
 
-export interface Order {
+export interface OrderData {
   id: string;
   price: number;
 }

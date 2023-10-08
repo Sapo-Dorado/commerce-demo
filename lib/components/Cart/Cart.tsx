@@ -3,14 +3,18 @@ import { useCart } from "@/lib/contexts/cart-context";
 import { formatPrice } from "@/lib/utils";
 import * as S from "./style";
 import CartItems from "./CartItems";
+import { useRouter } from "next/navigation";
 
 export default function Cart() {
-  const { isOpen, openCart, closeCart, total, items } = useCart();
+  const { isOpen, openCart, closeCart, createOrder, total, items } = useCart();
+  const router = useRouter();
 
-  const handleCheckout = () => {
-    if (total.quantity > 0) {
-      alert(`Checkout - Subtotal: ${formatPrice(total.price)}`);
+  const handleCheckout = async () => {
+    if (total.quantity == 0) {
+      return;
     }
+    const { data: order } = await createOrder();
+    router.push(`/shop/checkout/${order.id}`);
   };
 
   const handleToggleCart = (isOpen: boolean) => () =>

@@ -2,7 +2,7 @@ import { useCartContext } from "./CartContextProvider";
 import useCartItems from "./useCartItems";
 import useCartTotal from "./useCartTotal";
 
-const useCart = () => {
+export function useCart() {
   const { isOpen, setIsOpen } = useCartContext();
   const {
     items,
@@ -16,6 +16,26 @@ const useCart = () => {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
+  const createOrder = async () => {
+    const productAmounts = items.reduce((pre, item) => {
+      return {
+        ...pre,
+        [item.variation.id]: item.quantity,
+      };
+    }, {});
+
+    const result = await fetch("/api/order", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        productAmounts: productAmounts,
+      }),
+    });
+    return await result.json();
+  };
+
   return {
     isOpen,
     openCart,
@@ -27,7 +47,6 @@ const useCart = () => {
     decreaseItemQuantity,
     total,
     updateCartTotal,
+    createOrder,
   };
-};
-
-export { useCart };
+}

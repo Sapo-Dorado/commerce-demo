@@ -1,9 +1,9 @@
 import InventoryCount from "@/lib/components/InventoryCount";
-import Cart from "@/lib/components/Cart";
 import { PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
 import { Product, Variation } from "@/lib/models";
 import AddToCartButton from "@/lib/components/AddToCartButton";
+import Cart from "@/lib/components/Cart/Cart";
 
 export function generateStaticParams() {
   return PRODUCTS.map((product) => ({
@@ -52,6 +52,7 @@ export default async function ProductPage({
         <VariationsList variations={product.variations} />
         <InventoryCount variationId={product.variations[0].id} />
         <AddToCartButton product={product} variation={product.variations[0]} />
+        <Cart />
       </div>
     </div>
   );
