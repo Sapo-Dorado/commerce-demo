@@ -1,6 +1,6 @@
 import CardPayment from "@/lib/components/CardPayment/CardPayment";
 import { getOrder } from "@/lib/square";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default async function Checkout({
   params,
@@ -8,8 +8,9 @@ export default async function Checkout({
   params: { order_id: string };
 }) {
   const { data: order } = await getOrder(params.order_id);
+
   if (!order) {
-    notFound();
+    redirect("/shop");
   }
 
   return (
