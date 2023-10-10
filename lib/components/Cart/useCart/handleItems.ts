@@ -5,10 +5,10 @@ function updateQuantitySafely(
   targetItem: ICartItem,
   quantity: number
 ): ICartItem {
-  if (currentItem.variation.id === targetItem.variation.id) {
+  if (currentItem.variationId === targetItem.variationId) {
     return {
-      product: currentItem.product,
-      variation: currentItem.variation,
+      productId: currentItem.productId,
+      variationId: currentItem.variationId,
       quantity: currentItem.quantity + quantity,
     };
   } else {
@@ -18,7 +18,7 @@ function updateQuantitySafely(
 
 export function addItem(items: ICartItem[], newItem: ICartItem): ICartItem[] {
   const isItemAlreadyInCart = items.some(
-    (item: ICartItem) => newItem.variation.id === item.variation.id
+    (item: ICartItem) => newItem.variationId === item.variationId
   );
 
   if (isItemAlreadyInCart) {
@@ -30,9 +30,12 @@ export function addItem(items: ICartItem[], newItem: ICartItem): ICartItem[] {
   }
 }
 
-export function removeItem(items: ICartItem[], itemToRemove: ICartItem): ICartItem[] {
+export function removeItem(
+  items: ICartItem[],
+  itemToRemove: ICartItem
+): ICartItem[] {
   return items.filter(
-    (item: ICartItem) => item.variation.id !== itemToRemove.variation.id
+    (item: ICartItem) => item.variationId !== itemToRemove.variationId
   );
 }
 

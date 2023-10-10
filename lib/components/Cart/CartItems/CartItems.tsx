@@ -11,7 +11,7 @@ export default function CartProducts({ items }: IProps) {
   return (
     <S.Container>
       {items?.length ? (
-        items.map((i) => <CartItem item={i} key={i.variation.id} />)
+        items.map((i) => <CartItem item={i} key={i.variationId} />)
       ) : (
         <S.CartProductsEmpty>Your cart is empty!</S.CartProductsEmpty>
       )}

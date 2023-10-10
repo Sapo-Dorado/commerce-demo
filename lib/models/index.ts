@@ -11,7 +11,7 @@ export interface Product {
   longDescription: string;
   image: string;
   thumbnail: string;
-  variations: Variation[];
+  variations: Record<string, Variation>;
 }
 
 export interface SquareResult {
@@ -25,8 +25,8 @@ export interface OrderData {
 }
 
 export interface ICartItem {
-  product: Product;
-  variation: Variation;
+  productId: string;
+  variationId: string;
   quantity: number;
 }
 

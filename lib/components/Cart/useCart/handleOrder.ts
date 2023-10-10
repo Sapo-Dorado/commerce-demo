@@ -4,7 +4,7 @@ export async function createOrder(items: ICartItem[]): Promise<SquareResult> {
   const productAmounts = items.reduce((pre, item) => {
     return {
       ...pre,
-      [item.variation.id]: item.quantity,
+      [item.variationId]: item.quantity,
     };
   }, {});
 

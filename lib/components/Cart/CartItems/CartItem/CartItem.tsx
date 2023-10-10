@@ -3,14 +3,23 @@ import useCart from "../../useCart";
 
 import * as S from "./style";
 import { formatPrice } from "@/lib/utils";
+import { getProductById } from "@/lib/client-config";
 
 interface IProps {
   item: ICartItem;
 }
 
 export default function CartItem({ item }: IProps) {
-  const [removeItem, increaseItemQuantity, decreaseItemQuantity] = useCart((state: ICartState) => [state.removeItem, state.increaseItemQuantity, state.decreaseItemQuantity]);
-  const { product, variation, quantity } = item;
+  const [removeItem, increaseItemQuantity, decreaseItemQuantity] = useCart(
+    (state: ICartState) => [
+      state.removeItem,
+      state.increaseItemQuantity,
+      state.decreaseItemQuantity,
+    ]
+  );
+  const { productId, variationId, quantity } = item;
+  const product = getProductById(productId);
+  const variation = product.variations[variationId];
 
   const handleRemoveItem = () => removeItem(item);
   const handleIncreaseItemQuantity = () => increaseItemQuantity(item);

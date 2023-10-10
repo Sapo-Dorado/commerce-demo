@@ -6,9 +6,9 @@ import AddToCartButton from "@/lib/components/AddToCartButton";
 import Cart from "@/lib/components/Cart/Cart";
 
 export function generateStaticParams() {
-  return PRODUCTS.map((product) => ({
+  return PRODUCTS.map((name) => ({
     params: {
-      product_name: product.name,
+      product_name: name,
     },
   }));
 }
@@ -33,8 +33,9 @@ export default async function ProductPage({
   const { product_name } = params;
   const product: Product = getProductByName(product_name) ?? notFound();
 
-  const productAmounts: Record<string, number> = {};
-  productAmounts[product.variations[0].id] = 1;
+  const variationsList = Object.keys(product.variations).map(
+    (id) => product.variations[id]
+  );
 
   return (
     <div className="h-screen">
@@ -49,9 +50,9 @@ export default async function ProductPage({
       <div className="containder mx-auto w-2/3">
         <p>Name: {product.name}</p>
         <p>{product.longDescription}</p>
-        <VariationsList variations={product.variations} />
-        <InventoryCount variationId={product.variations[0].id} />
-        <AddToCartButton product={product} variation={product.variations[0]} />
+        <VariationsList variations={variationsList} />
+        <InventoryCount variationId={variationsList[0].id} />
+        <AddToCartButton product={product} variation={variationsList[0]} />
         <Cart />
       </div>
     </div>

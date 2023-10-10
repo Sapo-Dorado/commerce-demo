@@ -10,7 +10,11 @@ interface IProps {
 
 export default function AddToCartButton({ product, variation }: IProps) {
   const addItem = useCart((state: ICartState) => state.addItem);
-  const item: ICartItem = { product, variation, quantity: 1 };
+  const item: ICartItem = {
+    productId: product.id,
+    variationId: variation.id,
+    quantity: 1,
+  };
   return (
     <a
       className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
