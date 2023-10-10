@@ -1,7 +1,7 @@
 import { Client, Environment, OrderLineItem, ApiError, Order } from "square";
 import { SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID, CURRENCY } from "./config";
 import { randomUUID } from "crypto";
-import { OrderData } from "./models";
+import { OrderData, SquareResult } from "./models";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -11,11 +11,6 @@ const client = new Client({
   accessToken: SQUARE_ACCESS_TOKEN,
   environment: Environment.Sandbox,
 });
-
-interface SquareResult {
-  data?: any;
-  errors?: string[];
-}
 
 function genOrderData(order?: Order): OrderData {
   const id = order?.id;

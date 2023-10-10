@@ -1,12 +1,40 @@
 "use client";
-import { useCart } from "@/lib/contexts/cart-context";
+import useCart from "./useCart";
 import { formatPrice } from "@/lib/utils";
-import * as S from "./style";
 import CartItems from "./CartItems";
 import { useRouter } from "next/navigation";
+import {
+  ICartItem,
+  ICartState,
+  ICartTotal,
+  defaultCartTotal,
+} from "@/lib/models";
+import { useEffect, useState } from "react";
+import * as S from "./style";
 
 export default function Cart() {
-  const { isOpen, openCart, closeCart, createOrder, total, items } = useCart();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const stateIsOpen = useCart((state: ICartState) => state.isOpen);
+  useEffect(() => {
+    setIsOpen(stateIsOpen);
+  }, [stateIsOpen]);
+
+  const [total, setTotal] = useState<ICartTotal>(defaultCartTotal);
+  const [items, setItems] = useState<ICartItem[]>([]);
+  const [stateTotal, stateItems] = useCart((state: ICartState) => [
+    state.total,
+    state.items,
+  ]);
+  useEffect(() => {
+    setItems(stateItems);
+    setTotal(stateTotal);
+  }, [stateItems]);
+
+  const [toggleCart, createOrder] = useCart((state: ICartState) => [
+    state.toggleCart,
+    state.createOrder,
+  ]);
+
   const router = useRouter();
 
   const handleCheckout = async () => {
@@ -17,12 +45,9 @@ export default function Cart() {
     router.push(`/shop/checkout/${order.id}`);
   };
 
-  const handleToggleCart = (isOpen: boolean) => () =>
-    isOpen ? closeCart() : openCart();
-
   return (
     <S.Container isOpen={isOpen}>
-      <S.CartButton onClick={handleToggleCart(isOpen)}>
+      <S.CartButton onClick={toggleCart}>
         {isOpen ? (
           <span>X</span>
         ) : (

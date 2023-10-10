@@ -1,7 +1,7 @@
 "use client";
 
-import { ICartItem, Product, Variation } from "@/lib/models";
-import { useCart } from "@/lib/contexts/cart-context";
+import { ICartItem, ICartState, Product, Variation } from "@/lib/models";
+import useCart from "@/lib/components/Cart/useCart";
 
 interface IProps {
   product: Product;
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export default function AddToCartButton({ product, variation }: IProps) {
-  const { addItem } = useCart();
+  const addItem = useCart((state: ICartState) => state.addItem);
   const item: ICartItem = { product, variation, quantity: 1 };
   return (
     <a

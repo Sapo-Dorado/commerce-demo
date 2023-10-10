@@ -14,6 +14,11 @@ export interface Product {
   variations: Variation[];
 }
 
+export interface SquareResult {
+  data?: any;
+  errors?: string[];
+}
+
 export interface OrderData {
   id: string;
   price: number;
@@ -30,11 +35,20 @@ export interface ICartTotal {
   quantity: number;
 }
 
-export interface ICartContext {
-  isOpen: boolean;
-  setIsOpen(state: boolean): void;
+export const defaultCartTotal: ICartTotal = {
+  price: 0,
+  quantity: 0,
+};
+
+export interface ICartState {
   total: ICartTotal;
-  setTotal(state: ICartTotal): void;
   items: ICartItem[];
-  setItems(state: ICartItem[]): void;
+  isOpen: boolean;
+  addItem(newItem: ICartItem): void;
+  removeItem(itemToRemove: ICartItem): void;
+  increaseItemQuantity(itemToIncrease: ICartItem): void;
+  decreaseItemQuantity(itemToDecrease: ICartItem): void;
+  clearCart(): void;
+  toggleCart(): void;
+  createOrder(): Promise<SquareResult>;
 }

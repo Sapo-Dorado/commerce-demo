@@ -1,5 +1,5 @@
-import { ICartItem } from "@/lib/models";
-import { useCart } from "@/lib/contexts/cart-context";
+import { ICartItem, ICartState } from "@/lib/models";
+import useCart from "../../useCart";
 
 import * as S from "./style";
 import { formatPrice } from "@/lib/utils";
@@ -9,7 +9,7 @@ interface IProps {
 }
 
 export default function CartItem({ item }: IProps) {
-  const { removeItem, increaseItemQuantity, decreaseItemQuantity } = useCart();
+  const [removeItem, increaseItemQuantity, decreaseItemQuantity] = useCart((state: ICartState) => [state.removeItem, state.increaseItemQuantity, state.decreaseItemQuantity]);
   const { product, variation, quantity } = item;
 
   const handleRemoveItem = () => removeItem(item);
