@@ -4,6 +4,7 @@ import useCart from "../../useCart";
 import * as S from "./style";
 import { formatPrice } from "@/lib/utils";
 import { getProductById } from "@/lib/client-config";
+import Image from "next/image";
 
 interface IProps {
   item: ICartItem;
@@ -31,7 +32,9 @@ export default function CartItem({ item }: IProps) {
         onClick={handleRemoveItem}
         title="remove product from cart"
       />
-      <S.Image src={product.thumbnail} alt={product.name} />
+      <S.ImageContainer >
+        <Image src={product.thumbnail} alt={product.name} fill={true} />
+      </S.ImageContainer>
       <S.Details>
         <S.Title>{product.name}</S.Title>
         <S.Desc>

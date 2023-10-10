@@ -8,8 +8,8 @@
       "name": "Ashitaba",
       "description": "A cool suppliment",
       "long-description": "Buy our product, it's super cool! You won't regret it (probably).",
-      "image": "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/324508_1100-800x825.jpg",
-      "thumbnail": "https://www.aceashitaba.com/image/catalog/home/ashitaba-leaf.png",
+      "image": "/productImages/Ashitaba.jpg",
+      "thumbnail": "/productImages/ashitaba-leaf.png",
       "product-id": "A2CUNVA5GT4EN2FWPBZEKLPC",
       "variations": [
         {
@@ -23,8 +23,8 @@
       "name": "Ashitaba2",
       "description": "Also a cool suppliment",
       "long-description": "Buy our product, it's super cool! You won't regret it (probably).",
-      "image": "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/324508_1100-800x825.jpg",
-      "thumbnail": "https://www.aceashitaba.com/image/catalog/home/ashitaba-leaf.png",
+      "image": "/productImages/Ashitaba.jpg",
+      "thumbnail": "/productImages/ashitaba-leaf.png",
       "product-id": "A2CUNVA5GT4EN2FWPBZEKLPC",
       "variations": [
         {

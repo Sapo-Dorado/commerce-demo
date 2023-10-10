@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Product, Variation } from "@/lib/models";
 import AddToCartButton from "@/lib/components/AddToCartButton";
 import Cart from "@/lib/components/Cart/Cart";
+import Image from "next/image";
 
 export function generateStaticParams() {
   return PRODUCTS.map((name) => ({
@@ -40,11 +41,14 @@ export default async function ProductPage({
   return (
     <div className="h-screen">
       <div className="h-1/5" />
-      <div className="container mx-auto aspect-square w-1/4">
-        <img
+      <div
+        className="container mx-auto aspect-square w-1/4"
+        style={{ position: "relative" }}
+      >
+        <Image
           src={product.image}
           alt={"Picture of " + product.name}
-          className="object-cover"
+          fill={true}
         />
       </div>
       <div className="containder mx-auto w-2/3">

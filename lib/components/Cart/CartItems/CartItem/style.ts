@@ -83,10 +83,11 @@ export const ChangeQuantity = styled.button`
   }
 `;
 
-export const Image = styled.img`
+export const ImageContainer = styled.div`
   display: inline-block;
   vertical-align: middle;
-  width: 15%;
-  height: auto;
+  width: 45px;
+  height: 45px;
   margin-right: 3%;
+  position: relative;
 `;
