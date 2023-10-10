@@ -14,10 +14,6 @@ import * as S from "./style";
 
 export default function Cart() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const stateIsOpen = useCart((state: ICartState) => state.isOpen);
-  useEffect(() => {
-    setIsOpen(stateIsOpen);
-  }, [stateIsOpen]);
 
   const [total, setTotal] = useState<ICartTotal>(defaultCartTotal);
   const [items, setItems] = useState<ICartItem[]>([]);
@@ -30,11 +26,12 @@ export default function Cart() {
     setTotal(stateTotal);
   }, [stateItems]);
 
-  const [toggleCart, createOrder] = useCart((state: ICartState) => [
-    state.toggleCart,
+  const [createOrder, clearCart] = useCart((state: ICartState) => [
     state.createOrder,
+    state.clearCart,
   ]);
 
+  const toggleCart = () => setIsOpen(!isOpen);
   const router = useRouter();
 
   const handleCheckout = async () => {
@@ -42,6 +39,7 @@ export default function Cart() {
       return;
     }
     const { data: order } = await createOrder();
+    clearCart();
     router.push(`/shop/checkout/${order.id}`);
   };
 

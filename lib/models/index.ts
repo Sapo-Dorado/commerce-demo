@@ -43,12 +43,10 @@ export const defaultCartTotal: ICartTotal = {
 export interface ICartState {
   total: ICartTotal;
   items: ICartItem[];
-  isOpen: boolean;
   addItem(newItem: ICartItem): void;
   removeItem(itemToRemove: ICartItem): void;
   increaseItemQuantity(itemToIncrease: ICartItem): void;
   decreaseItemQuantity(itemToDecrease: ICartItem): void;
   clearCart(): void;
-  toggleCart(): void;
   createOrder(): Promise<SquareResult>;
 }

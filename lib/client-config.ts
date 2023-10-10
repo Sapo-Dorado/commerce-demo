@@ -2,7 +2,13 @@
 import { Variation, Product } from "./models";
 
 const config: Record<string, any> = require("@/configuration/shop_config.json");
-const requiredConfigKeys = ["app-id", "location-id"];
+const requiredConfigKeys = [
+  "app-id",
+  "location-id",
+  "currency",
+  "country-code",
+  "products",
+];
 const requiredProductKeys = [
   "name",
   "description",
@@ -89,6 +95,7 @@ const usedProductNames: Set<string> = new Set();
 export const SQUARE_APPLICATION_ID: string = config["app-id"];
 export const SQUARE_LOCATION_ID: string = config["location-id"];
 export const CURRENCY: string = config["currency"];
+export const COUNTRY_CODE: string = config["country-code"];
 
 const ID_TO_PRODUCT: Record<string, Product> = config["products"].reduce(
   (pre: Record<string, Product>, productInfo: Record<string, any>) => ({

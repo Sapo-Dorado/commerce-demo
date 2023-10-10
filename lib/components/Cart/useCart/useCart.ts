@@ -22,7 +22,6 @@ const useCart = create<ICartState>()(
     (set, get): ICartState => ({
       total: defaultCartTotal,
       items: [],
-      isOpen: false,
       addItem: (newItem: ICartItem) =>
         set((state: ICartState) => updatedItems(addItem(state.items, newItem))),
       removeItem: (itemToRemove: ICartItem) =>
@@ -38,10 +37,6 @@ const useCart = create<ICartState>()(
           updatedItems(decreaseItemQuantity(state.items, itemToDecrease))
         ),
       clearCart: () => set(() => updatedItems([])),
-      toggleCart: () =>
-        set((state) => ({
-          isOpen: !state.isOpen,
-        })),
       createOrder: async () => await createOrder(get().items),
     }),
     { name: "items" }
