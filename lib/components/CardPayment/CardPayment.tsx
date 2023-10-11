@@ -5,6 +5,8 @@ import {
   CURRENCY,
   SQUARE_APPLICATION_ID,
   SQUARE_LOCATION_ID,
+  getProductById,
+  getVariation,
 } from "@/lib/client-config";
 import {
   PaymentForm,
@@ -34,55 +36,71 @@ export default function CardPayment({ order }: IProps) {
     return (order.price / 100).toString();
   };
 
+  const OrderParts = () => {
+    return order.items.map((item) => {
+      const product = getProductById(item.productId);
+      const variation = getVariation(item.productId, item.variationId);
+      return (
+        <p>
+          {product.name} ({variation.name}): {item.quantity}
+        </p>
+      );
+    });
+  };
   const Card = () => {
     return (
-      <div className="container mx-auto content-center">
-        <PaymentForm
-          applicationId={SQUARE_APPLICATION_ID}
-          cardTokenizeResponseReceived={async (
-            token: { token: any },
-            verifiedBuyer: any
-          ) => {
-            const response = await fetch("/api/pay", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
+      <>
+        <OrderParts />
+        <div className="container mx-auto content-center">
+          <PaymentForm
+            applicationId={SQUARE_APPLICATION_ID}
+            cardTokenizeResponseReceived={async (
+              token: { token: any },
+              verifiedBuyer: any
+            ) => {
+              const response = await fetch("/api/pay", {
+                method: "POST",
+                headers: {
+                  "Content-type": "application/json",
+                },
+                body: JSON.stringify({
+                  sourceId: token.token,
+                  orderId: order.id,
+                }),
+              });
+              if (response.status == 200) {
+                setPayState({ ...payState, completed: true });
+              } else {
+                const { errors } = await response.json();
+                setPayState({ ...payState, errors: errors });
+              }
+            }}
+            createPaymentRequest={() => ({
+              countryCode: COUNTRY_CODE,
+              currencyCode: CURRENCY,
+              total: {
+                amount: calculateOrderPrice(),
+                label: "Total",
               },
-              body: JSON.stringify({
-                sourceId: token.token,
-                orderId: order.id,
-              }),
-            });
-            if (response.status == 200) {
-              setPayState({ ...payState, completed: true });
-            } else {
-              const { errors } = await response.json();
-              setPayState({ ...payState, errors: errors });
-            }
-          }}
-          createPaymentRequest={() => ({
-            countryCode: COUNTRY_CODE,
-            currencyCode: CURRENCY,
-            total: {
-              amount: calculateOrderPrice(),
-              label: "Total",
-            },
-          })}
-          locationId={SQUARE_LOCATION_ID}
-        >
-          <ApplePay />
-          <GooglePay />
-          <br />
-          <CreditCard />
-        </PaymentForm>
-      </div>
+            })}
+            locationId={SQUARE_LOCATION_ID}
+          >
+            <ApplePay />
+            <GooglePay />
+            <br />
+            <CreditCard />
+          </PaymentForm>
+        </div>
+      </>
     );
   };
 
   return (
     <>
-      {payState.completed ? <p>Success!</p> : <Card /> }
-      {payState.errors.map((error,idx) => <p key={idx}>{error}</p>)}
+      {payState.completed ? <p>Success!</p> : <Card />}
+      {payState.errors.map((error, idx) => (
+        <p key={idx}>{error}</p>
+      ))}
     </>
   );
 }

@@ -21,6 +21,7 @@ export interface SquareResult {
 
 export interface OrderData {
   id: string;
+  items: ICartItem[];
   price: number;
 }
 

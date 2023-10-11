@@ -104,6 +104,7 @@ const ID_TO_PRODUCT: Record<string, Product> = config["products"].reduce(
   }),
   {}
 );
+
 const PRODUCT_NAME_TO_ID: Record<string, string> = Object.keys(
   ID_TO_PRODUCT
 ).reduce(
@@ -113,6 +114,15 @@ const PRODUCT_NAME_TO_ID: Record<string, string> = Object.keys(
   }),
   {}
 );
+
+const VARIATION_ID_TO_PRODUCT_ID: Record<string, string> = Object.keys(
+  ID_TO_PRODUCT
+).reduce((pre: Record<string, string>, productId: string) => {
+  for (const variationId of Object.keys(ID_TO_PRODUCT[productId].variations)) {
+    pre[variationId] = productId;
+  }
+  return pre;
+}, {});
 
 export const PRODUCTS = Object.keys(ID_TO_PRODUCT).map(
   (id: string) => ID_TO_PRODUCT[id].name
@@ -130,4 +140,8 @@ export function getVariation(
   variationId: string
 ): Variation {
   return ID_TO_PRODUCT[productId].variations[variationId];
+}
+
+export function getProductId(variationId: string) {
+  return VARIATION_ID_TO_PRODUCT_ID[variationId];
 }
