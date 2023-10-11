@@ -25,12 +25,17 @@
       "long-description": "Buy our product, it's super cool! You won't regret it (probably).",
       "image": "/productImages/Ashitaba.jpg",
       "thumbnail": "/productImages/ashitaba-leaf.png",
-      "product-id": "A2CUNVA5GT4EN2FWPBZEKLPC",
+      "product-id": "IEXIBUTO5SEDRW4VVOGRIGRT",
       "variations": [
         {
-          "name": "Normal",
-          "price": 500,
-          "variation-id": "N3PYS6KI4YCRW45ZWOGNXQOW"
+          "name": "Large",
+          "price": 750,
+          "variation-id": "3YKKUAU2INDBME4Y56SREFEF"
+        },
+        {
+          "name": "Small",
+          "price": 300,
+          "variation-id": "3QM4C6PDTM64ZSAFJ5XA3AET"
         }
       ]
     }
