@@ -26,10 +26,7 @@ export default function Cart() {
     setTotal(stateTotal);
   }, [stateItems]);
 
-  const [createOrder, clearCart] = useCart((state: ICartState) => [
-    state.createOrder,
-    state.clearCart,
-  ]);
+  const createOrder = useCart((state: ICartState) => state.createOrder);
 
   const toggleCart = () => setIsOpen(!isOpen);
   const router = useRouter();
@@ -39,7 +36,6 @@ export default function Cart() {
       return;
     }
     const { data: order } = await createOrder();
-    clearCart();
     router.push(`/shop/checkout/${order.id}`);
   };
 

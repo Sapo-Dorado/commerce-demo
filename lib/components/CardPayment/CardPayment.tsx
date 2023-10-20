@@ -16,6 +16,7 @@ import {
 } from "react-square-web-payments-sdk";
 import { useState } from "react";
 import { OrderData } from "@/lib/models";
+import useCart from "../Cart/useCart";
 
 interface IProps {
   order: OrderData;
@@ -31,6 +32,8 @@ export default function CardPayment({ order }: IProps) {
     completed: false,
     errors: [],
   });
+
+  const clearCart = useCart((state) => state.clearCart);
 
   const calculateOrderPrice = () => {
     return (order.price / 100).toString();
@@ -69,6 +72,7 @@ export default function CardPayment({ order }: IProps) {
                 }),
               });
               if (response.status == 200) {
+                clearCart();
                 setPayState({ ...payState, completed: true });
               } else {
                 const { errors } = await response.json();
