@@ -14,10 +14,8 @@ export default async function InventoryCount({
 }) {
   const count = await fetchInventoryCount(variationId);
   return (
-    <div className="container mx-auto content-center">
-      <p className="m-0 max-w-[30ch] text-sm opacity-50">
-        {count} remaining, buy now! <br />
-      </p>
-    </div>
+    <p className="m-0 max-w-[30ch] text-sm opacity-50">
+      {count} remaining, buy now! <br />
+    </p>
   );
 }

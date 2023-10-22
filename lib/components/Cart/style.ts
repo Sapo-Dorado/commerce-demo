@@ -46,7 +46,7 @@ export const Container = styled.div<IContainer>`
       isOpen ? colors.black : colors.primary};
   }
 
-  @media only screen and (min-width: ${breakpoints.tablet}) {
+  @media only screen and (min-width: ${breakpoints.lg}) {
     width: 450px;
     right: ${({ isOpen }: IContainer) => (isOpen ? "0" : "-450px")};
 

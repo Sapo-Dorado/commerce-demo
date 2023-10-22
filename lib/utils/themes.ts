@@ -5,9 +5,9 @@ const colors = {
 };
 
 const breakpoints = {
-  mobile: "480px",
-  tablet: "768px",
-  desktop: "1025px",
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
 };
 
 export { colors, breakpoints };

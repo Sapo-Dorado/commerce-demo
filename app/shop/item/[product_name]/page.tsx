@@ -1,10 +1,16 @@
 import InventoryCount from "@/lib/components/InventoryCount";
-import { PRODUCTS, getProductByName } from "@/lib/config";
+import {
+  PRODUCTS,
+  getProductById,
+  getProductByName,
+  getProductId,
+} from "@/lib/config";
 import { notFound } from "next/navigation";
 import { Product, Variation } from "@/lib/models";
 import AddToCartButton from "@/lib/components/AddToCartButton";
 import Cart from "@/lib/components/Cart/Cart";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
 
 export function generateStaticParams() {
   return PRODUCTS.map((name) => ({
@@ -14,14 +20,32 @@ export function generateStaticParams() {
   }));
 }
 
+function ProductInfo({ variation }: { variation: Variation }) {
+  return (
+    <div>
+      <p className="font-semibold">
+        {variation.name} - {formatPrice(variation.price)}{" "}
+      </p>
+      <InventoryCount variationId={variation.id} />
+    </div>
+  );
+}
+
 function VariationsList({ variations }: { variations: Variation[] }) {
   return (
     <>
-      {variations.map((variation: Variation) => (
-        <p key={variation.name}>
-          {variation.name}: {variation.price}
-        </p>
-      ))}
+      {variations.map((variation: Variation) => {
+        const product = getProductById(getProductId(variation.id));
+        return (
+          <div key={variation.id} className="flex">
+            <AddToCartButton
+              product={product}
+              variation={variation}
+              content={<ProductInfo variation={variation} />}
+            />
+          </div>
+        );
+      })}
     </>
   );
 }
@@ -40,25 +64,24 @@ export default async function ProductPage({
 
   return (
     <div className="h-screen">
-      <div className="h-1/5" />
-      <div
-        className="container mx-auto aspect-square w-1/4"
-        style={{ position: "relative" }}
-      >
-        <Image
-          src={product.image}
-          alt={"Picture of " + product.name}
-          fill={true}
-        />
+      <div className="h-1/6">
+        <p className="p-5 text-5xl text-left">{product.name}</p>
       </div>
-      <div className="containder mx-auto w-2/3">
-        <p>Name: {product.name}</p>
-        <p>{product.longDescription}</p>
-        <VariationsList variations={variationsList} />
-        <InventoryCount variationId={variationsList[0].id} />
-        <AddToCartButton product={product} variation={variationsList[0]} />
-        <Cart />
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        <div className="flex flex-col items-center">
+          <Image
+            src={product.image}
+            alt={"Picture of " + product.name}
+            height={300}
+            width={300}
+          />
+          <p className="pt-8 pl-14 pr-14"> {product.longDescription} </p>
+        </div>
+        <div className="flex flex-col place-items-center pt-14 lg:pt-28 lg:place-items-start">
+          <VariationsList variations={variationsList} />
+        </div>
       </div>
+      <Cart />
     </div>
   );
 }
