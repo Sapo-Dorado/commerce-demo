@@ -1,4 +1,3 @@
-import InventoryCount from "@/lib/components/InventoryCount";
 import {
   PRODUCTS,
   getProductById,
@@ -8,9 +7,9 @@ import {
 import { notFound } from "next/navigation";
 import { Product, Variation } from "@/lib/models";
 import AddToCartButton from "@/lib/components/AddToCartButton";
+import Title from "@/lib/components/Title";
 import Cart from "@/lib/components/Cart/Cart";
 import Image from "next/image";
-import { formatPrice } from "@/lib/utils";
 
 export function generateStaticParams() {
   return PRODUCTS.map((name) => ({
@@ -20,17 +19,6 @@ export function generateStaticParams() {
   }));
 }
 
-function ProductInfo({ variation }: { variation: Variation }) {
-  return (
-    <div>
-      <p className="font-semibold">
-        {variation.name} - {formatPrice(variation.price)}{" "}
-      </p>
-      <InventoryCount variationId={variation.id} />
-    </div>
-  );
-}
-
 function VariationsList({ variations }: { variations: Variation[] }) {
   return (
     <>
@@ -38,11 +26,7 @@ function VariationsList({ variations }: { variations: Variation[] }) {
         const product = getProductById(getProductId(variation.id));
         return (
           <div key={variation.id} className="flex">
-            <AddToCartButton
-              product={product}
-              variation={variation}
-              content={<ProductInfo variation={variation} />}
-            />
+            <AddToCartButton product={product} variation={variation} />
           </div>
         );
       })}
@@ -64,9 +48,7 @@ export default async function ProductPage({
 
   return (
     <div className="h-screen">
-      <div className="h-1/6">
-        <p className="p-5 text-5xl text-left">{product.name}</p>
-      </div>
+      <Title text={product.name} />
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-center">
           <Image

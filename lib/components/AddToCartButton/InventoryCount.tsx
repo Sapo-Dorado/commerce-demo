@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { getInventoryCount } from "../square";
+import { getInventoryCount } from "@/lib/square";
 
 export const revalidate = 3600;
 
