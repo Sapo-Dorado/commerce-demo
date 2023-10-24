@@ -8,4 +8,8 @@ export function productUrl(name: string) {
   return `/shop/item/${name}`;
 }
 
+export function shopUrl() {
+  return "/shop";
+}
+
 export { colors, breakpoints };
