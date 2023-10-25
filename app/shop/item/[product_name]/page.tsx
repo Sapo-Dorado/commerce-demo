@@ -59,7 +59,7 @@ export default async function ProductPage({
           />
           <p className="pt-8 pl-14 pr-14"> {product.longDescription} </p>
         </div>
-        <div className="flex flex-col place-items-center pt-14 lg:pt-28 lg:place-items-start">
+        <div className="flex flex-col place-items-center pt-8 lg:pt-18 lg:place-items-start">
           <VariationsList variations={variationsList} />
         </div>
       </div>

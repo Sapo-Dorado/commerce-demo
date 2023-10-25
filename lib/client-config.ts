@@ -1,5 +1,5 @@
 // Don't export any secrets in this config
-import { Variation, Product } from "./models";
+import { Variation, Product, ICartItem } from "./models";
 
 const config: Record<string, any> = require("@/configuration/shop_config.json");
 const requiredConfigKeys = [
@@ -144,4 +144,11 @@ export function getVariation(
 
 export function getProductId(variationId: string) {
   return VARIATION_ID_TO_PRODUCT_ID[variationId];
+}
+
+export function calculatePrice(items: ICartItem[]) {
+  return items.reduce((sum: number, item: ICartItem) => {
+    sum += getVariation(item.productId, item.variationId).price * item.quantity;
+    return sum;
+  }, 0);
 }
