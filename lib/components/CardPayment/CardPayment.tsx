@@ -13,7 +13,7 @@ import {
   CreditCard,
 } from "react-square-web-payments-sdk";
 import { useState } from "react";
-import { OrderData } from "@/lib/models";
+import { OrderData, OrderState } from "@/lib/models";
 import useCart from "../Cart/useCart";
 
 interface IProps {
@@ -27,7 +27,7 @@ interface PaymentState {
 
 export default function CardPayment({ order }: IProps) {
   const [payState, setPayState] = useState<PaymentState>({
-    completed: false,
+    completed: order.state === OrderState.Completed,
     errors: [],
   });
 
@@ -39,56 +39,60 @@ export default function CardPayment({ order }: IProps) {
 
   const Card = () => {
     return (
-      <div className="pt-14 lg:px-14">
-        <PaymentForm
-          applicationId={SQUARE_APPLICATION_ID}
-          cardTokenizeResponseReceived={async (
-            token: { token: any },
-            verifiedBuyer: any
-          ) => {
-            const response = await fetch("/api/pay", {
-              method: "POST",
-              headers: {
-                "Content-type": "application/json",
-              },
-              body: JSON.stringify({
-                sourceId: token.token,
-                orderId: order.id,
-              }),
-            });
-            if (response.status == 200) {
-              clearCart();
-              setPayState({ ...payState, completed: true });
-            } else {
-              const { errors } = await response.json();
-              setPayState({ ...payState, errors: errors });
-            }
-          }}
-          createPaymentRequest={() => ({
-            countryCode: COUNTRY_CODE,
-            currencyCode: CURRENCY,
-            total: {
-              amount: calculateOrderPrice(),
-              label: "Total",
+      <PaymentForm
+        applicationId={SQUARE_APPLICATION_ID}
+        cardTokenizeResponseReceived={async (
+          token: { token: any },
+          verifiedBuyer: any
+        ) => {
+          const response = await fetch("/api/pay", {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
             },
-          })}
-          locationId={SQUARE_LOCATION_ID}
-        >
-          <ApplePay />
-          <GooglePay />
-          <br />
-          <CreditCard />
-        </PaymentForm>
-      </div>
+            body: JSON.stringify({
+              sourceId: token.token,
+              orderId: order.id,
+            }),
+          });
+          if (response.status == 200) {
+            clearCart();
+            setPayState({ ...payState, completed: true, errors: [] });
+          } else {
+            const { errors } = await response.json();
+            setPayState({ ...payState, errors: errors });
+          }
+        }}
+        createPaymentRequest={() => ({
+          countryCode: COUNTRY_CODE,
+          currencyCode: CURRENCY,
+          total: {
+            amount: calculateOrderPrice(),
+            label: "Total",
+          },
+        })}
+        locationId={SQUARE_LOCATION_ID}
+      >
+        <ApplePay />
+        <GooglePay />
+        <br />
+        <CreditCard />
+      </PaymentForm>
     );
   };
 
   return (
-    <>
-      {payState.completed ? <p>Success!</p> : <Card />}
+    <div className="flex flex-col justify-start pt-14 lg:px-14">
+      {payState.completed ? (
+        <p className="text-3xl font-semibold">Success!</p>
+      ) : (
+        <Card />
+      )}
       {payState.errors.map((error, idx) => (
-        <p key={idx}>{error}</p>
+        <p className="text-sm text-red-500 pt-2" key={idx}>
+          {error}
+        </p>
       ))}
-    </>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
-import { SQUARE_ACCESS_TOKEN, getProductId, getVariation } from "@/lib/config";
+import { SQUARE_ACCESS_TOKEN, getProductId } from "@/lib/config";
 import { ApiError, Client, Environment, Order } from "square";
-import { ICartItem, OrderData, SquareResult } from "@/lib/models";
+import { ICartItem, OrderData, OrderState, SquareResult } from "@/lib/models";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -16,8 +16,20 @@ export function genOrderData(order?: Order): OrderData {
     throw Error("Order Item missing necessary parameters");
   };
 
+  const handleState = (state: string) => {
+    if (state == "COMPLETED") {
+      return OrderState.Completed;
+    } else if (state == "OPEN") {
+      return OrderState.Open;
+    } else {
+      return OrderState.Unknown;
+    }
+  };
+
   const id = order?.id ?? abort();
   const amount = order?.netAmountDueMoney?.amount ?? abort();
+
+  const orderState = order?.state ?? abort();
 
   const items =
     order?.lineItems?.map((item): ICartItem => {
@@ -32,6 +44,7 @@ export function genOrderData(order?: Order): OrderData {
     id,
     price: parseInt(amount.toString()),
     items,
+    state: handleState(orderState),
   };
 }
 

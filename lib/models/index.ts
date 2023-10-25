@@ -19,10 +19,17 @@ export interface SquareResult {
   errors?: string[];
 }
 
+export enum OrderState {
+  Open,
+  Completed,
+  Unknown,
+}
+
 export interface OrderData {
   id: string;
   items: ICartItem[];
   price: number;
+  state: OrderState;
 }
 
 export interface ICartItem {
