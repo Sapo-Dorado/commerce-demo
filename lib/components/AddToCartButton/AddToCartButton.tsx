@@ -1,6 +1,7 @@
 import { Product, Variation } from "@/lib/models";
 import ClientAddToCartButton from "./ClientAddToCartButton";
 import VariationContent from "./VariationContent";
+import fetchInventoryCount from "./fetchInventoryCount";
 
 interface IProps {
   product: Product;
@@ -8,12 +9,16 @@ interface IProps {
 }
 
 // Should not be rendered by a client component
-export default function AddToCartButton({ product, variation }: IProps) {
+export default async function AddToCartButton({ product, variation }: IProps) {
+  const count = await fetchInventoryCount(variation.id);
   return (
     <ClientAddToCartButton
       product={product}
       variation={variation}
-      content={<VariationContent variation={variation} />}
+      disabled={count <= 0}
+      content={
+        <VariationContent variation={variation} inventoryCount={count} />
+      }
     />
   );
 }
