@@ -10,6 +10,7 @@ import AddToCartButton from "@/lib/components/AddToCartButton";
 import Title from "@/lib/components/Title";
 import Cart from "@/lib/components/Cart/Cart";
 import Image from "next/image";
+import ReturnToShopButton from "@/lib/components/ReturnToShopButton";
 
 export function generateStaticParams() {
   return PRODUCTS.map((name) => ({
@@ -61,6 +62,9 @@ export default async function ProductPage({
         </div>
         <div className="flex flex-col place-items-center pt-8 lg:pt-18 lg:place-items-start">
           <VariationsList variations={variationsList} />
+        </div>
+        <div className="flex justify-center pt-6">
+          <ReturnToShopButton />
         </div>
       </div>
       <Cart />

@@ -15,6 +15,7 @@ import {
 import { useState } from "react";
 import { OrderData, OrderState } from "@/lib/models";
 import useCart from "../Cart/useCart";
+import ReturnToShopButton from "../ReturnToShopButton";
 
 interface IProps {
   order: OrderData;
@@ -84,7 +85,10 @@ export default function CardPayment({ order }: IProps) {
   return (
     <div className="flex flex-col justify-start pt-14 lg:px-14">
       {payState.completed ? (
-        <p className="text-3xl font-semibold">Success!</p>
+        <>
+          <p className="text-3xl font-semibold text-center pb-8">Success!</p>
+          <ReturnToShopButton />
+        </>
       ) : (
         <Card />
       )}
