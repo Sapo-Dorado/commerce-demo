@@ -9,10 +9,11 @@ interface IProps {
 }
 
 export default function CheckoutInfo({ order }: IProps) {
-  const price = calculatePrice(order.items);
+  const items = order.orderItems.map((orderItem) => orderItem.item);
+  const price = calculatePrice(items);
   return (
     <div className="flex flex-col">
-      {order.items.map((item) => (
+      {items.map((item) => (
         <CheckoutItem item={item} key={item.variationId}/>
       ))}
       <CheckoutTotal total={formatPrice(price)} />

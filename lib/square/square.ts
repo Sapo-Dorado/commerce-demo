@@ -1,6 +1,6 @@
 import { SQUARE_ACCESS_TOKEN, getProductId } from "@/lib/config";
 import { ApiError, Client, Environment, Order } from "square";
-import { ICartItem, OrderData, OrderState, SquareResult } from "@/lib/models";
+import { OrderData, OrderItem, OrderState, SquareResult } from "@/lib/models";
 
 (BigInt.prototype as any).toJSON = function () {
   return this.toString();
@@ -30,21 +30,26 @@ export function genOrderData(order?: Order): OrderData {
   const amount = order?.netAmountDueMoney?.amount ?? abort();
 
   const orderState = order?.state ?? abort();
+  const version = order?.version ?? abort();
 
-  const items =
-    order?.lineItems?.map((item): ICartItem => {
+  const orderItems =
+    order?.lineItems?.map((item): OrderItem => {
       const variationId = item.catalogObjectId ?? abort();
       return {
-        variationId,
-        productId: getProductId(variationId),
-        quantity: parseInt(item.quantity),
+        item: {
+          variationId,
+          productId: getProductId(variationId),
+          quantity: parseInt(item.quantity),
+        },
+        uid: item.uid ?? abort(),
       };
     }) ?? abort();
   return {
     id,
     price: parseInt(amount.toString()),
-    items,
+    orderItems,
     state: handleState(orderState),
+    version,
   };
 }
 
@@ -55,7 +60,7 @@ export function genErrorResult(error: any): SquareResult {
     errors =
       error.errors?.map((e) => e.detail ?? "Unknown Error") ?? defaultError;
   } else if (error instanceof Error) {
-    errors = [error.message]
+    errors = [error.message];
   }
 
   return { errors: errors };

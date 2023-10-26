@@ -25,11 +25,16 @@ export enum OrderState {
   Unknown,
 }
 
+export interface OrderItem {
+  uid: string;
+  item: ICartItem;
+}
 export interface OrderData {
   id: string;
-  items: ICartItem[];
+  orderItems: OrderItem[];
   price: number;
   state: OrderState;
+  version: number;
 }
 
 export interface ICartItem {
