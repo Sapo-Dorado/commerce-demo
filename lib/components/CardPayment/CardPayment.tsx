@@ -83,17 +83,19 @@ export default function CardPayment({ order }: IProps) {
   };
 
   return (
-    <div className="flex flex-col justify-start pt-14 lg:px-14">
+    <div className="flex flex-col items-center pt-14 lg:px-14">
       {payState.completed ? (
         <>
           <p className="text-3xl font-semibold text-center pb-8">Success!</p>
           <ReturnToShopButton />
         </>
       ) : (
-        <Card />
+        <div className="flex">
+          <Card />
+        </div>
       )}
       {payState.errors.map((error, idx) => (
-        <p className="text-sm text-red-500 pt-2" key={idx}>
+        <p className="text-sm text-red-500 pt-2 w-1/2" key={idx}>
           {error}
         </p>
       ))}

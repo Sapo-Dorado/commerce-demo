@@ -54,6 +54,8 @@ export function genErrorResult(error: any): SquareResult {
   if (error instanceof ApiError) {
     errors =
       error.errors?.map((e) => e.detail ?? "Unknown Error") ?? defaultError;
+  } else if (error instanceof Error) {
+    errors = [error.message]
   }
 
   return { errors: errors };
