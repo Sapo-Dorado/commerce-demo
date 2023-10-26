@@ -1,7 +1,7 @@
 import CardPayment from "@/lib/components/CardPayment/CardPayment";
 import CheckoutInfo from "@/lib/components/CheckoutInfo";
 import Title from "@/lib/components/Title";
-import { OrderState } from "@/lib/models";
+import { IOrderState } from "@/lib/models";
 import { getOrder } from "@/lib/square";
 import { shopUrl } from "@/lib/utils";
 import { redirect } from "next/navigation";
@@ -13,7 +13,7 @@ export default async function Checkout({
 }) {
   const { data: order } = await getOrder(params.order_id);
 
-  if (!order || order.state === OrderState.Unknown) {
+  if (!order || order.state === IOrderState.Unknown) {
     redirect(shopUrl());
   }
 

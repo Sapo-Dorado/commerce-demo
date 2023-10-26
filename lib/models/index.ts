@@ -19,21 +19,21 @@ export interface SquareResult {
   errors?: string[];
 }
 
-export enum OrderState {
+export enum IOrderState {
   Open,
   Completed,
   Unknown,
 }
 
-export interface OrderItem {
+export interface IOrderItem {
   uid: string;
   item: ICartItem;
 }
-export interface OrderData {
+export interface IOrderData {
   id: string;
-  orderItems: OrderItem[];
+  orderItems: IOrderItem[];
   price: number;
-  state: OrderState;
+  state: IOrderState;
   version: number;
 }
 

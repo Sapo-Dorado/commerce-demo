@@ -1,11 +1,11 @@
-import { OrderData } from "@/lib/models";
+import { IOrderData } from "@/lib/models";
 import CheckoutItem from "./CheckoutItem";
 import CheckoutTotal from "./CheckoutTotal";
 import { calculatePrice } from "@/lib/client-config";
 import { formatPrice } from "@/lib/utils";
 
 interface IProps {
-  order: OrderData;
+  order: IOrderData;
 }
 
 export default function CheckoutInfo({ order }: IProps) {
@@ -14,7 +14,7 @@ export default function CheckoutInfo({ order }: IProps) {
   return (
     <div className="flex flex-col">
       {items.map((item) => (
-        <CheckoutItem item={item} key={item.variationId}/>
+        <CheckoutItem item={item} key={item.variationId} />
       ))}
       <CheckoutTotal total={formatPrice(price)} />
     </div>

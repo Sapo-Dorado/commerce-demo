@@ -13,12 +13,12 @@ import {
   CreditCard,
 } from "react-square-web-payments-sdk";
 import { useState } from "react";
-import { OrderData, OrderState } from "@/lib/models";
+import { IOrderData, IOrderState } from "@/lib/models";
 import useCart from "../Cart/useCart";
 import ReturnToShopButton from "../ReturnToShopButton";
 
 interface IProps {
-  order: OrderData;
+  order: IOrderData;
 }
 
 interface PaymentState {
@@ -28,7 +28,7 @@ interface PaymentState {
 
 export default function CardPayment({ order }: IProps) {
   const [payState, setPayState] = useState<PaymentState>({
-    completed: order.state === OrderState.Completed,
+    completed: order.state === IOrderState.Completed,
     errors: [],
   });
 
