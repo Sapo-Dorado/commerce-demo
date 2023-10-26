@@ -1,11 +1,6 @@
-import {
-  PRODUCTS,
-  getProductById,
-  getProductByName,
-  getProductId,
-} from "@/lib/config";
+import { PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
-import { Product, Variation } from "@/lib/models";
+import { Product } from "@/lib/models";
 import AddToCartButton from "@/lib/components/AddToCartButton";
 import Title from "@/lib/components/Title";
 import Cart from "@/lib/components/Cart/Cart";
@@ -20,17 +15,17 @@ export function generateStaticParams() {
   }));
 }
 
-function VariationsList({ variations }: { variations: Variation[] }) {
+function VariationsList({ product }: { product: Product }) {
   return (
     <>
-      {variations.map((variation: Variation) => {
-        const product = getProductById(getProductId(variation.id));
-        return (
-          <div key={variation.id} className="flex">
-            <AddToCartButton product={product} variation={variation} />
-          </div>
-        );
-      })}
+      {Object.keys(product.variations).map((variationId) => (
+        <div key={variationId} className="flex">
+          <AddToCartButton
+            product={product}
+            variation={product.variations[variationId]}
+          />
+        </div>
+      ))}
     </>
   );
 }
@@ -42,10 +37,6 @@ export default async function ProductPage({
 }) {
   const { product_name } = params;
   const product: Product = getProductByName(product_name) ?? notFound();
-
-  const variationsList = Object.keys(product.variations).map(
-    (id) => product.variations[id]
-  );
 
   return (
     <div className="h-screen">
@@ -61,7 +52,7 @@ export default async function ProductPage({
           <p className="pt-8 pl-14 pr-14"> {product.longDescription} </p>
         </div>
         <div className="flex flex-col place-items-center pt-8 lg:pt-18 lg:place-items-start">
-          <VariationsList variations={variationsList} />
+          <VariationsList product={product} />
         </div>
         <div className="flex justify-center pt-6">
           <ReturnToShopButton />
