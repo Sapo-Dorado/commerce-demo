@@ -84,10 +84,12 @@ export default function CardPayment({ order }: IProps) {
           <ReturnToShopButton />
         </>
       ) : (
-        <div className="flex flex-col min-w-min">
+        <>
           <Card />
-          <ErrorDisplay errors={errors} />
-        </div>
+          <div className="container w-1/2">
+            <ErrorDisplay errors={errors} />
+          </div>
+        </>
       )}
     </div>
   );

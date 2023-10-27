@@ -6,7 +6,7 @@ import { calculatePrice } from "@/lib/client-config";
 import { formatPrice } from "@/lib/utils";
 import { useState } from "react";
 import RemoveButton from "../../RemoveButton";
-import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
+import ErrorDisplay from "../../ErrorDisplay";
 
 interface IProps {
   order: IOrderData;
@@ -41,15 +41,17 @@ export default function CheckoutInfo({ order, setOrder }: IProps) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col items-center">
       {order.orderItems.map((orderItem) => (
-        <div className="flex flex-col min-w-min" key={orderItem.item.variationId}>
-          <CheckoutItem item={orderItem.item} >
+        <div key={orderItem.item.variationId}>
+          <CheckoutItem item={orderItem.item}>
             {order.orderItems.length > 1 && (
               <RemoveButton callback={() => removeItem(orderItem)} />
             )}
           </CheckoutItem>
-          <ErrorDisplay errors={errors} />
+          <div className="container w-1/2">
+            <ErrorDisplay errors={errors} />
+          </div>
         </div>
       ))}
       <CheckoutTotal total={formatPrice(price)} />

@@ -11,7 +11,7 @@ export default function Checkout({ order: originalOrder }: IProps) {
   const [order, setOrder] = useState<IOrderData>(originalOrder);
 
   return (
-    <div className="grid place-items-center grid-cols-1 lg:grid-cols-2">
+    <div className="grid place-items-center grid-cols-1 lg:grid-cols-2 lg:pt-24">
       <CheckoutInfo order={order} setOrder={setOrder} />
       <CardPayment order={order} />
     </div>

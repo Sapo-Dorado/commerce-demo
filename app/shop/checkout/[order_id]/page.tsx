@@ -17,7 +17,7 @@ export default async function CheckoutPage({
   }
 
   return (
-    <div className="h-screen">
+    <div className="h-fit min-h-screen">
       <Title text="Checkout" />
       <Checkout order={order} />
     </div>

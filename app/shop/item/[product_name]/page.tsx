@@ -39,7 +39,7 @@ export default async function ProductPage({
   const product: Product = getProductByName(product_name) ?? notFound();
 
   return (
-    <div className="h-screen">
+    <div className="h-fit min-h-screen">
       <Title text={product.name} />
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-center">
