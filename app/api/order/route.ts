@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createOrder } from "@/lib/square";
 
+interface IProps {
+  productAmounts: Record<string, number>
+}
+
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  const { productAmounts } = await req.json();
+  const { productAmounts }: IProps = await req.json();
   const { data, errors } = await createOrder(productAmounts);
   if (errors !== undefined) {
     return NextResponse.json({errors: errors}, { status: 500 });
