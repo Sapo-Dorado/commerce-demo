@@ -6,17 +6,19 @@ import {
 import { ICartItem } from "@/lib/models";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
+import RemoveButton from "../../RemoveButton";
 
 interface IProps {
   item: ICartItem;
+  children: React.ReactNode;
 }
 
-export default function CheckoutItem({ item }: IProps) {
+export default function CheckoutItem({ item, children }: IProps) {
   const product = getProductById(item.productId);
   const variation = getVariation(item.productId, item.variationId);
   const price = calculatePrice([item]);
   return (
-    <div className="flex px-5 py-2 m-2 rounded border border-black border-opacity-25">
+    <div className="flex relative px-5 py-2 m-2 rounded border border-black border-opacity-25">
       <div className="h-16 w-16 relative">
         <Image
           src={product.thumbnail}
@@ -34,6 +36,7 @@ export default function CheckoutItem({ item }: IProps) {
       <div className="flex place-items-center">
         <p className="text-xl font-semibold">{formatPrice(price)}</p>
       </div>
+      {children}
     </div>
   );
 }

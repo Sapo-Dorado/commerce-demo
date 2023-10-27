@@ -7,7 +7,7 @@ import {
   getProductId,
   getProductById,
 } from "@/lib/config";
-import { SquareResult } from "@/lib/models";
+import { IOrderData, IOrderItem, SquareResult } from "@/lib/models";
 import { client, genErrorResult, genOrderData } from "./square";
 import { getInventoryCounts } from "./utilities";
 
@@ -91,6 +91,28 @@ export async function createPayment(
       throw Error("Invalid payment");
     }
     return { data: { id: paymentResult?.payment?.id } };
+  } catch (error) {
+    return genErrorResult(error);
+  }
+}
+
+export async function removeItemsFromOrder(
+  order: IOrderData,
+  itemsToRemove: IOrderItem[]
+): Promise<SquareResult> {
+  try {
+    const { result } = await client.ordersApi.updateOrder(order.id, {
+      idempotencyKey: randomUUID(),
+      order: {
+        locationId: SQUARE_LOCATION_ID,
+        version: order.version,
+      },
+      fieldsToClear: itemsToRemove.map((item) => `line_items[${item.uid}]`),
+    });
+
+    return {
+      data: genOrderData(result.order),
+    };
   } catch (error) {
     return genErrorResult(error);
   }

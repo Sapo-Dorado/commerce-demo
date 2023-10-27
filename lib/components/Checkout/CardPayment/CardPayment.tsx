@@ -14,29 +14,22 @@ import {
 } from "react-square-web-payments-sdk";
 import { useState } from "react";
 import { IOrderData, IOrderState } from "@/lib/models";
-import useCart from "../Cart/useCart";
-import ReturnToShopButton from "../ReturnToShopButton";
+import useCart from "../../Cart/useCart";
+import ReturnToShopButton from "../../ReturnToShopButton";
+import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
 
 interface IProps {
   order: IOrderData;
 }
 
-interface PaymentState {
-  completed: boolean;
-  errors: string[];
-}
-
 export default function CardPayment({ order }: IProps) {
-  const [payState, setPayState] = useState<PaymentState>({
-    completed: order.state === IOrderState.Completed,
-    errors: [],
-  });
+  const [completed, setCompleted] = useState<boolean>(
+    order.state === IOrderState.Completed
+  );
+  const [errors, setErrors] = useState<string[]>([]);
 
   const clearCart = useCart((state) => state.clearCart);
-
-  const calculateOrderPrice = () => {
-    return (order.price / 100).toString();
-  };
+  const calculateOrderPrice = () => (order.price / 100).toString();
 
   const Card = () => {
     return (
@@ -58,10 +51,11 @@ export default function CardPayment({ order }: IProps) {
           });
           if (response.status == 200) {
             clearCart();
-            setPayState({ ...payState, completed: true, errors: [] });
+            setCompleted(true);
+            setErrors([]);
           } else {
             const { errors } = await response.json();
-            setPayState({ ...payState, errors: errors });
+            setErrors(errors);
           }
         }}
         createPaymentRequest={() => ({
@@ -84,21 +78,17 @@ export default function CardPayment({ order }: IProps) {
 
   return (
     <div className="flex flex-col items-center pt-14 lg:px-14">
-      {payState.completed ? (
+      {completed ? (
         <>
           <p className="text-3xl font-semibold text-center pb-8">Success!</p>
           <ReturnToShopButton />
         </>
       ) : (
-        <div className="flex">
+        <div className="flex flex-col min-w-min">
           <Card />
+          <ErrorDisplay errors={errors} />
         </div>
       )}
-      {payState.errors.map((error, idx) => (
-        <p className="text-sm text-red-500 pt-2 w-1/2" key={idx}>
-          {error}
-        </p>
-      ))}
     </div>
   );
 }

@@ -1,12 +1,11 @@
-import CardPayment from "@/lib/components/CardPayment/CardPayment";
-import CheckoutInfo from "@/lib/components/CheckoutInfo";
+import Checkout from "@/lib/components/Checkout";
 import Title from "@/lib/components/Title";
 import { IOrderState } from "@/lib/models";
 import { getOrder } from "@/lib/square";
 import { shopUrl } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-export default async function Checkout({
+export default async function CheckoutPage({
   params,
 }: {
   params: { order_id: string };
@@ -20,10 +19,7 @@ export default async function Checkout({
   return (
     <div className="h-screen">
       <Title text="Checkout" />
-      <div className="grid place-items-center grid-cols-1 lg:grid-cols-2">
-        <CheckoutInfo order={order} />
-        <CardPayment order={order} />
-      </div>
+      <Checkout order={order} />
     </div>
   );
 }
