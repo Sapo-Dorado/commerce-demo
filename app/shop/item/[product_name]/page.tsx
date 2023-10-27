@@ -41,13 +41,14 @@ export default async function ProductPage({
   return (
     <div className="h-fit min-h-screen">
       <Title text={product.name} />
-      <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 pt-4 lg:grid-cols-2 lg:pt-24">
         <div className="flex flex-col items-center">
           <Image
             src={product.image}
             alt={"Picture of " + product.name}
             height={300}
             width={300}
+            priority={true}
           />
           <p className="pt-8 pl-14 pr-14"> {product.longDescription} </p>
         </div>

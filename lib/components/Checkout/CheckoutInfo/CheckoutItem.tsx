@@ -19,13 +19,12 @@ export default function CheckoutItem({ item, children }: IProps) {
   const price = calculatePrice([item]);
   return (
     <div className="flex relative px-5 py-2 m-2 rounded border border-black border-opacity-25">
-      <div className="h-16 w-16 relative">
         <Image
           src={product.thumbnail}
           alt={"Picture of " + product.name}
-          fill={true}
+          height={64}
+          width={64}
         />
-      </div>
       <div className="flex flex-col w-28 mx-8">
         <p className="font-semibold text-base">{product.name}</p>
         <p className="text-sm">{variation.name}</p>

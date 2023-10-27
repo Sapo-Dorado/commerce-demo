@@ -32,8 +32,13 @@ export default function CartItem({ item }: IProps) {
         onClick={handleRemoveItem}
         title="remove product from cart"
       />
-      <S.ImageContainer >
-        <Image src={product.thumbnail} alt={product.name} fill={true} />
+      <S.ImageContainer>
+        <Image
+          src={product.thumbnail}
+          alt={product.name}
+          fill={true}
+          sizes="10vw"
+        />
       </S.ImageContainer>
       <S.Details>
         <S.Title>{product.name}</S.Title>

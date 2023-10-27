@@ -35,6 +35,7 @@ export default function ProductCard({ product }: IProps) {
           alt={"Picture of " + product.name}
           height={250}
           width={250}
+          priority={true}
         />
         <p className="text-sm text-center">{product.description} </p>
       </a>
