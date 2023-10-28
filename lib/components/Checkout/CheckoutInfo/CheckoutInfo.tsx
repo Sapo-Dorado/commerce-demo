@@ -43,13 +43,18 @@ export default function CheckoutInfo({ order, setOrder }: IProps) {
   return (
     <div className="flex flex-col items-center">
       {order.orderItems.map((orderItem) => (
-        <div key={orderItem.item.variationId}>
-          <CheckoutItem item={orderItem.item}>
-            {order.orderItems.length > 1 && (
-              <RemoveButton callback={() => removeItem(orderItem)} />
-            )}
-          </CheckoutItem>
-          <div className="container w-1/2">
+        <div
+          className="flex flex-col items-center"
+          key={orderItem.item.variationId}
+        >
+          <div className="container w-fit">
+            <CheckoutItem item={orderItem.item}>
+              {order.orderItems.length > 1 && (
+                <RemoveButton callback={() => removeItem(orderItem)} />
+              )}
+            </CheckoutItem>
+          </div>
+          <div className="container max-w-[50%]">
             <ErrorDisplay errors={errors} />
           </div>
         </div>

@@ -2,32 +2,19 @@ import { PRODUCTS, getProductByName } from "@/lib/client-config";
 import Cart from "@/lib/components/Cart";
 import ProductCard from "@/lib/components/ProductCard";
 import Title from "@/lib/components/Title";
-import { Product } from "@/lib/models";
-
-interface ProductProps {
-  products: Product[];
-}
-
-function Products({ products }: ProductProps) {
-  return (
-    <>
-      {products.map((product) => (
-        <ProductCard product={product} key={product.id} />
-      ))}
-    </>
-  );
-}
 
 export default function Shop() {
-  const productsList = PRODUCTS.map((name) => getProductByName(name));
-  const lgGridCols = productsList.length > 2 ? 3 : productsList.length;
+  const products = PRODUCTS.map((name) => getProductByName(name));
+  const lgGridCols = products.length > 2 ? 3 : products.length;
   return (
     <div className="h-fit min-h-screen">
       <Title text="Welcome to the shop!" />
       <div
-        className={`grid justify-items-center grid-cols-1 lg:grid-cols-${lgGridCols}`}
+        className={`grid justify-items-center grid-cols-1 lg:grid-cols-${lgGridCols} lg:pt-14`}
       >
-        <Products products={productsList} />
+        {products.map((product) => (
+          <ProductCard product={product} key={product.id} />
+        ))}
       </div>
       <Cart />
     </div>

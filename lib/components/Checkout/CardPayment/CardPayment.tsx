@@ -86,7 +86,7 @@ export default function CardPayment({ order }: IProps) {
       ) : (
         <>
           <Card />
-          <div className="container w-1/2">
+          <div className="flex justify-center max-w-[50%]">
             <ErrorDisplay errors={errors} />
           </div>
         </>
