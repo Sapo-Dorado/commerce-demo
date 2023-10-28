@@ -24,7 +24,7 @@ export default function ProductCard({ product }: IProps) {
   );
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col place-items-center">
       <a
         className="p-5 m-4 cursor-pointer rounded border border-black border-opacity-25 hover:border-opacity-100"
         href={productUrl(product.name)}

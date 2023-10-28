@@ -10,7 +10,7 @@ export default function Shop() {
     <div className="h-fit min-h-screen">
       <Title text="Welcome to the shop!" />
       <div
-        className={`grid justify-items-center grid-cols-1 lg:grid-cols-${lgGridCols} lg:pt-14`}
+        className={`grid grid-cols-1 lg:grid-cols-${lgGridCols} lg:pt-14`}
       >
         {products.map((product) => (
           <ProductCard product={product} key={product.id} />
