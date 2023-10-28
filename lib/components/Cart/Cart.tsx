@@ -24,7 +24,7 @@ export default function Cart() {
   useEffect(() => {
     setItems(stateItems);
     setTotal(stateTotal);
-  }, [stateItems]);
+  }, [stateItems, stateTotal]);
 
   const createOrder = useCart((state: ICartState) => state.createOrder);
 
