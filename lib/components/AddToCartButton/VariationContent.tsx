@@ -24,5 +24,5 @@ export default function VariationContent({
     <p className="font-semibold">{variation.name} - Sold Out!</p>
   );
 
-  return <>{inventoryCount >= 0 ? <RegularContent /> : <SoldOutContent />}</>;
+  return <>{inventoryCount > 0 ? <RegularContent /> : <SoldOutContent />}</>;
 }

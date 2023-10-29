@@ -1,27 +1,18 @@
-import { Product, Variation } from "@/lib/models";
+import { Product } from "@/lib/models";
 import { productUrl } from "@/lib/utils";
 import Image from "next/image";
 import VariationSelection from "./VariationSelection";
-import AddToCartButton from "../AddToCartButton";
+import { getAddToCartButtons } from "../AddToCartButton";
 
 interface IProps {
   product: Product;
 }
 
-export default function ProductCard({ product }: IProps) {
+export default async function ProductCard({ product }: IProps) {
   const variations = Object.keys(product.variations).map(
     (id) => product.variations[id]
   );
-
-  const buttons = variations.reduce(
-    (pre, variation) => ({
-      ...pre,
-      [variation.id]: (
-        <AddToCartButton product={product} variation={variation} />
-      ),
-    }),
-    {}
-  );
+  const buttons = await getAddToCartButtons(product);
 
   return (
     <div className="flex flex-col place-items-center">

@@ -1,7 +1,7 @@
 import { PRODUCTS, getProductByName } from "@/lib/config";
 import { notFound } from "next/navigation";
 import { Product } from "@/lib/models";
-import AddToCartButton from "@/lib/components/AddToCartButton";
+import { getAddToCartButtons } from "@/lib/components/AddToCartButton";
 import Title from "@/lib/components/Title";
 import Cart from "@/lib/components/Cart/Cart";
 import Image from "next/image";
@@ -17,19 +17,9 @@ export function generateStaticParams() {
   }));
 }
 
-function VariationsList({ product }: { product: Product }) {
-  return (
-    <>
-      {Object.keys(product.variations).map((variationId) => (
-        <div key={variationId} className="flex">
-          <AddToCartButton
-            product={product}
-            variation={product.variations[variationId]}
-          />
-        </div>
-      ))}
-    </>
-  );
+async function VariationsList({ product }: { product: Product }) {
+  const buttons = await getAddToCartButtons(product);
+  return Object.keys(buttons).map((id) => <>{buttons[id]}</>);
 }
 
 export default async function ProductPage({
