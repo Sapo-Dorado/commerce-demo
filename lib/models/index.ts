@@ -31,12 +31,19 @@ export interface IOrderItem {
   uid: string;
   item: ICartItem;
 }
+
 export interface IOrderData {
   id: string;
   orderItems: IOrderItem[];
   price: number;
   state: IOrderState;
   version: number;
+}
+
+export interface IInventoryCount {
+  // Variation Id
+  id: string;
+  count: number;
 }
 
 export interface ICartItem {

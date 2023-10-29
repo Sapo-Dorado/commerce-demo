@@ -1,21 +1,26 @@
 import { SQUARE_LOCATION_ID } from "@/lib/config";
 import { client, genErrorResult, genOrderData } from "./square";
-import { SquareResult } from "@/lib/models";
+import { IInventoryCount, SquareResult } from "@/lib/models";
 
 export async function getInventoryCounts(
   variationIds: string[]
 ): Promise<SquareResult> {
   try {
+    const abort = () => {
+      throw Error("Invalid Inventory Response");
+    };
+
     const { result } = await client.inventoryApi.batchRetrieveInventoryCounts({
       catalogObjectIds: variationIds,
       locationIds: [SQUARE_LOCATION_ID],
     });
 
-    const countObjects = result?.counts;
-    if (!countObjects) {
-      throw Error("Counts not defined");
-    }
-    const counts = countObjects.map((count) => count.quantity ?? 0);
+    const countObjects = result?.counts ?? abort();
+    const counts: IInventoryCount[] = countObjects.map((countObj) => {
+      const id = countObj.catalogObjectId ?? abort();
+      const count = parseInt(countObj.quantity ?? "0");
+      return { id, count };
+    });
 
     return { data: { counts } };
   } catch (error) {
