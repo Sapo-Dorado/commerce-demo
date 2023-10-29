@@ -7,7 +7,7 @@ import Cart from "@/lib/components/Cart/Cart";
 import Image from "next/image";
 import ReturnToShopButton from "@/lib/components/ReturnToShopButton";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export function generateStaticParams() {
   return PRODUCTS.map((name) => ({
