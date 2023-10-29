@@ -20,9 +20,10 @@ import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
 
 interface IProps {
   order: IOrderData;
+  setOrder: (order: IOrderData) => void;
 }
 
-export default function CardPayment({ order }: IProps) {
+export default function CardPayment({ order, setOrder }: IProps) {
   const [completed, setCompleted] = useState<boolean>(
     order.state === IOrderState.Completed
   );
@@ -54,8 +55,9 @@ export default function CardPayment({ order }: IProps) {
             setCompleted(true);
             setErrors([]);
           } else {
-            const { errors } = await response.json();
+            const { errors, info: order } = await response.json();
             setErrors(errors);
+            setOrder(order);
           }
         }}
         createPaymentRequest={() => ({

@@ -25,7 +25,7 @@ export async function getInventoryCounts(
   }
 }
 
-export async function getOrder(orderId: string) {
+export async function getOrder(orderId: string): Promise<SquareResult> {
   try {
     const { result } = await client.ordersApi.retrieveOrder(orderId);
 

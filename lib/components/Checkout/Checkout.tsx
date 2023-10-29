@@ -13,7 +13,7 @@ export default function Checkout({ order: originalOrder }: IProps) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 lg:pt-24">
       <CheckoutInfo order={order} setOrder={setOrder} />
-      <CardPayment order={order} />
+      <CardPayment order={order} setOrder={setOrder} />
     </div>
   );
 }

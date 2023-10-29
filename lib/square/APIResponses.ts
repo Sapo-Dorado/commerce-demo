@@ -9,7 +9,7 @@ import {
 } from "@/lib/config";
 import { IOrderData, IOrderItem, SquareResult } from "@/lib/models";
 import { client, genErrorResult, genOrderData } from "./square";
-import { getInventoryCounts } from "./utilities";
+import { getInventoryCounts, getOrder } from "./utilities";
 
 export async function createOrder(
   product_amounts: Record<string, number>
@@ -92,7 +92,15 @@ export async function createPayment(
     }
     return { data: { id: paymentResult?.payment?.id } };
   } catch (error) {
-    return genErrorResult(error);
+    const { data: order } = await getOrder(orderId);
+    const result = genErrorResult(error);
+    if (order != undefined) {
+      return {
+        ...result,
+        info: order,
+      };
+    }
+    return result;
   }
 }
 

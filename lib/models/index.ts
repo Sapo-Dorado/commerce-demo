@@ -17,6 +17,8 @@ export interface Product {
 export interface SquareResult {
   data?: any;
   errors?: string[];
+  // Additional info if there are errors
+  info?: any;
 }
 
 export enum IOrderState {
