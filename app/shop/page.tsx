@@ -3,6 +3,8 @@ import Cart from "@/lib/components/Cart";
 import ProductCard from "@/lib/components/ProductCard";
 import Title from "@/lib/components/Title";
 
+export const revalidate = 3600;
+
 export default function Shop() {
   const products = PRODUCTS.map((name) => getProductByName(name));
   const lgGridCols = products.length > 2 ? 3 : products.length;
