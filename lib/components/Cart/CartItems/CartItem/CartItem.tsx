@@ -28,7 +28,7 @@ export default function CartItem({ item }: IProps) {
 
   const DeleteButton = () => (
     <div
-      className="absolute top-[13px] right-[16px] text-neutral-500 hover:text-white"
+      className="absolute top-[13px] right-[16px] text-neutral-500 hover:text-white cursor-pointer"
       onClick={handleRemoveItem}
     >
       <svg
