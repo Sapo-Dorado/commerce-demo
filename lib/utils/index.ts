@@ -12,3 +12,11 @@ export function productUrl(name: string) {
 export function shopUrl() {
   return "/shop";
 }
+
+export function zeros(numZeros: number) {
+  const result = new Array(numZeros);
+  for (let i = 0; i < numZeros; ++i) {
+    result[i] = 0;
+  }
+  return result;
+}

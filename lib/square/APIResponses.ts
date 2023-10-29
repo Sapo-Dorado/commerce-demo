@@ -7,13 +7,18 @@ import {
   getProductId,
   getProductById,
 } from "@/lib/config";
-import { IOrderData, IOrderItem, SquareResult } from "@/lib/models";
+import {
+  IOrderData,
+  IOrderItem,
+  IPaymentData,
+  SquareResult,
+} from "@/lib/models";
 import { client, genErrorResult, genOrderData } from "./square";
 import { getInventoryCounts, getOrder } from "./utilities";
 
 export async function createOrder(
   product_amounts: Record<string, number>
-): Promise<SquareResult> {
+): Promise<SquareResult<IOrderData>> {
   try {
     const items = Object.entries(product_amounts).map(
       ([variationId, amount]): OrderLineItem => {
@@ -43,7 +48,7 @@ export async function createOrder(
 export async function createPayment(
   sourceId: string,
   orderId: string
-): Promise<SquareResult> {
+): Promise<SquareResult<IPaymentData, IOrderData>> {
   const abort = () => {
     throw Error("Invalid Order");
   };
@@ -64,13 +69,14 @@ export async function createPayment(
         }),
         {}
       ) ?? abort();
-    const ids = Object.keys(quantities);
-    const counts = (await getInventoryCounts(ids)).data?.counts ?? abort();
+    const counts =
+      (await getInventoryCounts(Object.keys(quantities))).data?.counts ??
+      abort();
 
-    ids.map((id, i) => {
-      if (quantities[id] > counts[i]) {
-        const product = getProductById(getProductId(id));
-        const variation = getVariation(product.id, id);
+    counts.map((countObj) => {
+      if (quantities[countObj.id] > countObj.count) {
+        const product = getProductById(getProductId(countObj.id));
+        const variation = getVariation(product.id, countObj.id);
         throw Error(
           `${product.name} doesn't have sufficient stock of ${variation.name} to fulfill your order, please remove it from your cart`
         );
@@ -107,7 +113,7 @@ export async function createPayment(
 export async function removeItemsFromOrder(
   order: IOrderData,
   itemsToRemove: IOrderItem[]
-): Promise<SquareResult> {
+): Promise<SquareResult<IOrderData>> {
   try {
     const { result } = await client.ordersApi.updateOrder(order.id, {
       idempotencyKey: randomUUID(),

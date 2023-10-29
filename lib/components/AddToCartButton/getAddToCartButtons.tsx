@@ -3,11 +3,13 @@ import AddToCartButton from "./AddToCartButton";
 import VariationContent from "./VariationContent";
 import { getInventoryCounts } from "@/lib/square";
 import { ReactElement, cache } from "react";
+import { zeros } from "@/lib/utils";
 
 const fetchInventoryCounts = cache(
   async (product: Product): Promise<IInventoryCount[]> => {
-    return (await getInventoryCounts(Object.keys(product.variations))).data
-      .counts;
+    const variations = Object.keys(product.variations);
+    return (await getInventoryCounts(variations)).data
+      ?.counts ?? zeros(variations.length);
   }
 );
 

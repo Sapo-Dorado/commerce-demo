@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { removeItemsFromOrder } from "@/lib/square";
-import { IOrderData, IOrderItem } from "@/lib/models";
+import { IOrderData, IOrderItem, SquareResult } from "@/lib/models";
 import { it } from "node:test";
 
 interface IProps {
@@ -8,7 +8,7 @@ interface IProps {
   itemsToRemove: IOrderItem[];
 }
 
-export async function POST(req: NextRequest): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse<SquareResult<IOrderData>>> {
   const { order, itemsToRemove }: IProps = await req.json();
   const { data, errors } = await removeItemsFromOrder(order, itemsToRemove);
   if (errors !== undefined) {

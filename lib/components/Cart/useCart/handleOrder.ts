@@ -1,6 +1,8 @@
-import { ICartItem, SquareResult } from "@/lib/models";
+import { ICartItem, IOrderData, SquareResult } from "@/lib/models";
 
-export async function createOrder(items: ICartItem[]): Promise<SquareResult> {
+export async function createOrder(
+  items: ICartItem[]
+): Promise<SquareResult<IOrderData>> {
   const productAmounts = items.reduce((pre, item) => {
     return {
       ...pre,

@@ -1,10 +1,16 @@
 import { SQUARE_LOCATION_ID } from "@/lib/config";
 import { client, genErrorResult, genOrderData } from "./square";
-import { IInventoryCount, SquareResult } from "@/lib/models";
+import {
+  IInventoryCount,
+  IInventoryData,
+  IOrderData,
+  SquareResult,
+} from "@/lib/models";
+import { zeros } from "../utils";
 
 export async function getInventoryCounts(
   variationIds: string[]
-): Promise<SquareResult> {
+): Promise<SquareResult<IInventoryData>> {
   try {
     const abort = () => {
       throw Error("Invalid Inventory Response");
@@ -24,13 +30,13 @@ export async function getInventoryCounts(
 
     return { data: { counts } };
   } catch (error) {
-    const zeros = new Array(variationIds.length);
-    for (let i = 0; i < variationIds.length; ++i) zeros[i] = 0;
-    return { data: { counts: zeros } };
+    return { data: { counts: zeros(variationIds.length) } };
   }
 }
 
-export async function getOrder(orderId: string): Promise<SquareResult> {
+export async function getOrder(
+  orderId: string
+): Promise<SquareResult<IOrderData>> {
   try {
     const { result } = await client.ordersApi.retrieveOrder(orderId);
 

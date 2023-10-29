@@ -14,11 +14,11 @@ export interface Product {
   variations: Record<string, Variation>;
 }
 
-export interface SquareResult {
-  data?: any;
+export interface SquareResult<DataType = any, InfoType = any> {
+  data?: DataType;
   errors?: string[];
   // Additional info if there are errors
-  info?: any;
+  info?: InfoType;
 }
 
 export enum IOrderState {
@@ -46,6 +46,15 @@ export interface IInventoryCount {
   count: number;
 }
 
+export interface IInventoryData {
+  counts: IInventoryCount[];
+}
+
+export interface IPaymentData {
+  // Payment Id
+  id: string;
+}
+
 export interface ICartItem {
   productId: string;
   variationId: string;
@@ -70,5 +79,5 @@ export interface ICartState {
   increaseItemQuantity(itemToIncrease: ICartItem): void;
   decreaseItemQuantity(itemToDecrease: ICartItem): void;
   clearCart(): void;
-  createOrder(): Promise<SquareResult>;
+  createOrder(): Promise<SquareResult<IOrderData>>;
 }

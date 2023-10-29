@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createPayment } from "@/lib/square";
+import { IOrderData, IPaymentData, SquareResult } from "@/lib/models";
 
 interface IProps {
   sourceId: string;
@@ -7,7 +8,7 @@ interface IProps {
 }
 
 // Assumption: If there are errors, info field will include the updated order data
-export async function POST(req: NextRequest): Promise<NextResponse> {
+export async function POST(req: NextRequest): Promise<NextResponse<SquareResult<IPaymentData, IOrderData>>> {
   const { sourceId, orderId }: IProps = await req.json();
   const { data, errors, info } = await createPayment(sourceId, orderId);
   if (errors !== undefined) {
