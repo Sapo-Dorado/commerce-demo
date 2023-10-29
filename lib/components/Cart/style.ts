@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, breakpoints } from "@/lib/utils";
+import { colors, breakpoints, CART_ICON_URL } from "@/lib/utils";
 
 export const CartButton = styled.button`
   border: 0;
@@ -66,7 +66,7 @@ export const CartIcon = styled.div<ICartIcon>`
   display: inline-block;
   vertical-align: middle;
   margin-right: 15px;
-  background-image: url(/cart-icon.png);
+  background-image: url(${CART_ICON_URL});
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

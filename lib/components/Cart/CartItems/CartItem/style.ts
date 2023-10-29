@@ -43,30 +43,6 @@ export const Price = styled.div`
   width: 25%;
 `;
 
-export const DeleteButton = styled.button`
-  width: 16px;
-  height: 16px;
-  top: 15px;
-  right: 5%;
-  border-radius: 50%;
-  position: absolute;
-  background-size: auto 100%;
-  background-image: url(/delete-icon.png);
-  background-repeat: no-repeat;
-  z-index: 2;
-  cursor: pointer;
-  border: 0;
-  background-color: transparent;
-
-  &:focus-visible {
-    outline: 3px solid ${colors.secondary};
-  }
-
-  &:hover {
-    background-position-x: -17px;
-  }
-`;
-
 export const ChangeQuantity = styled.button`
   color: #b7b7b7;
   border: 0;

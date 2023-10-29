@@ -1,4 +1,5 @@
-import { colors, breakpoints } from "./themes";
+export * from "./themes";
+export * from "./images";
 
 export function formatPrice(price: number) {
   return "$" + (price / 100).toFixed(2);
@@ -11,5 +12,3 @@ export function productUrl(name: string) {
 export function shopUrl() {
   return "/shop";
 }
-
-export { colors, breakpoints };
