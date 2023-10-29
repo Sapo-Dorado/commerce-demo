@@ -1,7 +1,11 @@
 import { Product, Variation } from "@/lib/models";
+import { getInventoryCounts } from "@/lib/square";
 import ClientAddToCartButton from "./ClientAddToCartButton";
 import VariationContent from "./VariationContent";
-import fetchInventoryCount from "./fetchInventoryCount";
+
+async function fetchInventoryCount(variationId: string) {
+  return (await getInventoryCounts([variationId])).data.counts[0];
+}
 
 interface IProps {
   product: Product;
