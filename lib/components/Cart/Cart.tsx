@@ -35,8 +35,13 @@ export default function Cart() {
     if (total.quantity == 0) {
       return;
     }
-    const { data: order } = await createOrder();
-    router.push(`/shop/checkout/${order.id}`);
+    const { data: order, errors } = await createOrder();
+    if (order != undefined) {
+      router.push(`/shop/checkout/${order.id}`);
+    } else {
+      console.log(errors);
+      router.push(`/shop`);
+    }
   };
 
   return (
