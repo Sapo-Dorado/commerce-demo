@@ -89,7 +89,10 @@ export default function CardPayment({ order, setOrder }: IProps) {
         <>
           <Card />
           <div className="flex justify-center max-w-[50%]">
-            <ErrorDisplay errors={errors} />
+            <ErrorDisplay
+              errors={errors}
+              errorContent={<ReturnToShopButton />}
+            />
           </div>
         </>
       )}

@@ -47,7 +47,7 @@ export default async function ProductPage({
         <div className="flex flex-col place-items-center pt-8 lg:pt-18 lg:place-items-start">
           <VariationsList product={product} />
         </div>
-        <div className="flex justify-center py-6">
+        <div className="flex justify-center">
           <ReturnToShopButton />
         </div>
       </div>
