@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, breakpoints, CART_ICON_URL } from "@/lib/utils";
+import { colors, breakpoints } from "@/lib/utils";
 
 export const CartButton = styled.button`
   border: 0;
@@ -56,24 +56,6 @@ export const Container = styled.div<IContainer>`
   }
 `;
 
-interface ICartIcon {
-  large?: boolean;
-}
-export const CartIcon = styled.div<ICartIcon>`
-  width: ${({ large }: ICartIcon) => (large ? "60px" : "50px")};
-  height: ${({ large }: ICartIcon) => (large ? "60px" : "50px")};
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 15px;
-  background-image: url(${CART_ICON_URL});
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-
-  background-size: 50%;
-`;
-
 export const CartQuantity = styled.div`
   display: inline-block;
   width: 18px;
@@ -107,19 +89,6 @@ export const CartContent = styled.div`
       background-color: #0c0b10;
     }
   }
-`;
-
-export const CartContentHeader = styled.div`
-  color: #ececec;
-  box-sizing: border-box;
-  text-align: center;
-  padding: 45px 0;
-`;
-
-export const HeaderTitle = styled.span`
-  font-weight: bold;
-  font-size: 1.2em;
-  vertical-align: middle;
 `;
 
 export const Sub = styled.p`

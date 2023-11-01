@@ -2,6 +2,7 @@
 import useCart from "./useCart";
 import { formatPrice } from "@/lib/utils";
 import CartItems from "./CartItems";
+import { CartIcon } from "@/lib/components/icons";
 import { useRouter } from "next/navigation";
 import {
   ICartItem,
@@ -50,22 +51,32 @@ export default function Cart() {
         {isOpen ? (
           <span>X</span>
         ) : (
-          <S.CartIcon>
+          <div className="relative flex justify-center items-center w-[50px] h-[50px]">
+            <div className="h-[35px] w-[35px] mb-1">
+              <CartIcon />
+            </div>
             <S.CartQuantity title="Products in cart quantity">
               {total.quantity}
             </S.CartQuantity>
-          </S.CartIcon>
+          </div>
         )}
       </S.CartButton>
 
       {isOpen && (
         <S.CartContent>
-          <S.CartContentHeader>
-            <S.CartIcon large>
-              <S.CartQuantity>{total.quantity}</S.CartQuantity>
-            </S.CartIcon>
-            <S.HeaderTitle>Cart</S.HeaderTitle>
-          </S.CartContentHeader>
+          <div className="flex py-[45px] justify-center text-white">
+            <div className="relative inline-flex justify-center items-center w-[60px] h-[60px]">
+              <div className="h-[40px] w-[40px] mb-1">
+                <CartIcon />
+              </div>
+              <S.CartQuantity title="Products in cart quantity">
+                {total.quantity}
+              </S.CartQuantity>
+            </div>
+            <div className="flex items-center font-medium text-2xl h-fill">
+              <span>Cart</span>
+            </div>
+          </div>
           <CartItems items={items} />
           <S.CartFooter>
             <S.Sub>SUBTOTAL</S.Sub>
