@@ -2,8 +2,9 @@ import { ICartItem, ICartState } from "@/lib/models";
 import useCart from "../../useCart";
 
 import * as S from "./style";
-import { XIcon, formatPrice } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import { getProductById } from "@/lib/client-config";
+import { XIcon } from "@/lib/components/icons";
 import Image from "next/image";
 
 interface IProps {

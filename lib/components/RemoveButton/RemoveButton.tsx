@@ -1,4 +1,4 @@
-import { XIcon } from "@/lib/utils";
+import { XIcon } from "@/lib/components/icons";
 
 interface IProps {
   callback: () => void;

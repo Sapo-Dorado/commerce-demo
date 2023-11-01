@@ -3,7 +3,7 @@
 import { ICartItem, ICartState, Product, Variation } from "@/lib/models";
 import useCart from "@/lib/components/Cart/useCart";
 import { ReactElement } from "react";
-import { CartIcon } from "@/lib/utils";
+import { CartIcon } from "@/lib/components/icons";
 
 interface IProps {
   product: Product;
