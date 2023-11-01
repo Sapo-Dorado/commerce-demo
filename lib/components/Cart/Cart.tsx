@@ -15,6 +15,7 @@ import * as S from "./style";
 
 export default function Cart() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOrdering, setIsOrdering] = useState<boolean>(false);
 
   const [total, setTotal] = useState<ICartTotal>(defaultCartTotal);
   const [items, setItems] = useState<ICartItem[]>([]);
@@ -36,12 +37,16 @@ export default function Cart() {
     if (total.quantity == 0) {
       return;
     }
-    const { data: order, errors } = await createOrder();
-    if (order != undefined) {
-      router.push(`/shop/checkout/${order.id}`);
-    } else {
-      console.log(errors);
-      router.push(`/shop`);
+    // Prevent Spamming the checkout button
+    if (!isOrdering) {
+      setIsOrdering(true);
+      const { data: order, errors } = await createOrder();
+      if (order != undefined) {
+        router.push(`/shop/checkout/${order.id}`);
+      } else {
+        console.log(errors);
+        router.push(`/shop`);
+      }
     }
   };
 
