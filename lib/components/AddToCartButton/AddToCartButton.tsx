@@ -3,6 +3,7 @@
 import { ICartItem, ICartState, Product, Variation } from "@/lib/models";
 import useCart from "@/lib/components/Cart/useCart";
 import { ReactElement } from "react";
+import { CartIcon } from "@/lib/utils";
 
 interface IProps {
   product: Product;
@@ -27,16 +28,14 @@ export default function AddToCartButton({
 
   const NormalButton = () => (
     <a
-      className="group rounded-lg border cursor-pointer px-5 py-4 my-4 border-gray-300 transition-colors hover:border-gray-400 hover:bg-gray-100"
+      className="rounded-lg border cursor-pointer px-5 py-4 my-4 border-gray-300 transition-colors hover:border-gray-400 hover:bg-gray-100"
       onClick={() => addItem(item)}
     >
       <div className="flex items-center w-52">
+        <div className="container w-7 h-7 mr-4">
+          <CartIcon />
+        </div>
         {content}
-        <h2 className="text-2xl pl-5 font-medium h-fill">
-          <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-            -&gt;
-          </span>
-        </h2>
       </div>
     </a>
   );
